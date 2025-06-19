@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Product, Order } from "@shared/schema";
+import { Link } from "wouter";
 import ProductModal from "@/components/product-modal";
 import MapComponent from "@/components/map-component";
 import SimpleDeliveryMap from "@/components/simple-delivery-map";
@@ -23,7 +24,8 @@ import {
   X,
   Clock,
   DollarSign,
-  ChefHat
+  ChefHat,
+  Home
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -156,6 +158,16 @@ export default function AdminDashboard() {
             <h1 className="text-2xl font-bold text-bakery-dark">Admin Dashboard</h1>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
+              <Link href="/">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                >
+                  <Home className="h-4 w-4 mr-2" />
+                  Home
+                </Button>
+              </Link>
               <Button
                 variant="outline"
                 size="sm"
