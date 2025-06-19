@@ -145,10 +145,9 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-1 flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-[-6px] pb-[-6px] mt-[12px] mb-[12px]">
           <h2 className="text-lg font-bold mb-1">Fresh Daily Cooked Meals</h2>
           <div className="flex items-center justify-center space-x-4 text-orange-100 text-xs">
             <div className="flex items-center space-x-1">
@@ -166,7 +165,6 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Products Grid */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
@@ -244,14 +242,12 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Daily Specials Banner */}
       <div className="bg-orange-100 py-0.5 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-orange-700 text-xs">Fresh meals cooked every morning • Available while supplies last</p>
         </div>
       </div>
-
       {/* Shopping Cart Modal */}
       <ShoppingCartModal
         isOpen={isCartOpen}
@@ -265,7 +261,6 @@ export default function FastFoodPage() {
         }}
         total={cartTotal}
       />
-
       {/* Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
