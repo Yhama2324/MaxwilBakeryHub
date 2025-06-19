@@ -142,8 +142,31 @@ export default function AuthPage() {
               <Wheat className="h-8 w-8 text-bakery-primary" />
               <span className="text-2xl font-bold text-bakery-dark">MAXWIL'</span>
             </div>
-            <h1 className="text-2xl font-bold text-bakery-dark">Welcome to MAXWIL' Bakery</h1>
-            <p className="text-gray-600 mt-2">Fresh baked goods delivered to your door</p>
+            
+            {/* Welcome Introduction */}
+            <div className="bg-gradient-to-r from-bakery-primary/10 to-orange-100/50 rounded-lg p-6 mb-6 text-left">
+              <h1 className="text-2xl font-bold text-bakery-dark mb-3">Welcome to MAXWIL'!</h1>
+              <div className="space-y-3 text-sm text-gray-700">
+                <p className="flex items-start space-x-2">
+                  <Wheat className="h-4 w-4 text-bakery-primary mt-0.5 flex-shrink-0" />
+                  <span><strong>Fresh Bakery:</strong> Artisan breads, pastries, and cakes baked daily with premium ingredients</span>
+                </p>
+                <p className="flex items-start space-x-2">
+                  <span className="h-4 w-4 text-orange-600 mt-0.5 flex-shrink-0">🍛</span>
+                  <span><strong>Daily Fast Food:</strong> Authentic Filipino meals cooked fresh every morning</span>
+                </p>
+                <p className="flex items-start space-x-2">
+                  <span className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0">🚚</span>
+                  <span><strong>Fast Delivery:</strong> Hot food delivered straight to your doorstep</span>
+                </p>
+              </div>
+              <div className="mt-4 p-3 bg-blue-50 rounded-md border-l-4 border-blue-400">
+                <p className="text-xs text-blue-800">
+                  <strong>New here?</strong> Create an account to start ordering delicious food. 
+                  <br />Already a customer? Sign in to continue your culinary journey!
+                </p>
+              </div>
+            </div>
           </div>
 
           <Tabs defaultValue="login" className="w-full">
