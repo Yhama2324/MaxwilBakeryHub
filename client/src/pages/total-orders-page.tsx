@@ -113,12 +113,12 @@ export default function TotalOrdersPage() {
                   Back to Dashboard
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold text-bakery-dark">All Orders</h1>
+              
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
               <Link href="/">
-                <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
+                <Button variant="outline" size="sm" className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 text-[12px] bg-[#f4c7d7]">
                   <Home className="h-4 w-4 mr-2" />
                   Home
                 </Button>

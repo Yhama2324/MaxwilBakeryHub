@@ -112,10 +112,9 @@ export default function RevenuePage() {
                   Back to Dashboard
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold text-bakery-dark">Revenue Analytics</h1>
+              <h1 className="font-bold text-[14px] text-center ml-[-3px] mr-[-3px] text-[#db530f]">Revenue Analytics</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
               <Link href="/">
                 <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
                   <Home className="h-4 w-4 mr-2" />
@@ -126,7 +125,6 @@ export default function RevenuePage() {
           </div>
         </div>
       </div>
-
       {/* Revenue Stats Cards */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
