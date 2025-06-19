@@ -173,7 +173,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-
       {/* Stats Cards */}
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
@@ -318,11 +317,7 @@ export default function AdminDashboard() {
                     {products
                       .filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter)
                       .map((product) => (
-                      <div key={product.id} className={`rounded-lg p-3 ${
-                        product.category === "fastfood" 
-                          ? "bg-orange-50 border border-orange-200" 
-                          : "bg-gray-50"
-                      }`}>
+                      <div key={product.id} className="rounded-lg p-3 bg-[#f0eee6f2] mt-[16px] mb-[16px]">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-center space-x-3 flex-1 min-w-0">
                             <img
@@ -609,7 +604,6 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
-
       {/* Product Modal */}
       <ProductModal
         isOpen={isProductModalOpen}
