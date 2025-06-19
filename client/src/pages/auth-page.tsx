@@ -115,6 +115,12 @@ export default function AuthPage() {
         securityCode: registerForm.securityCode || undefined
       });
       
+      toast({
+        title: "Registration Successful!",
+        description: "Welcome to MAXWIL' Bakery. You're now logged in and ready to shop.",
+        variant: "default"
+      });
+      
       setLocation("/");
     } catch (error) {
       // Error handling is done in the mutation
