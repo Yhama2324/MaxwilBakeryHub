@@ -16,6 +16,7 @@ interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   product?: Product | null;
+  defaultCategory?: string;
   onSave: () => void;
 }
 
@@ -23,6 +24,7 @@ export default function ProductModal({
   isOpen,
   onClose,
   product,
+  defaultCategory = "bread",
   onSave
 }: ProductModalProps) {
   const { toast } = useToast();
@@ -55,7 +57,7 @@ export default function ProductModal({
         name: "",
         description: "",
         price: "",
-        category: "bread",
+        category: defaultCategory,
         imageUrl: "",
         available: true
       });
