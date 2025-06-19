@@ -34,9 +34,9 @@ export default function RevenuePage() {
     }).format(numPrice);
   };
 
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', {
+  const formatTime = (date: string | Date) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
