@@ -140,7 +140,7 @@ export default function FastFoodPage() {
                       <img
                         src={product.imageUrl || '/placeholder-food.jpg'}
                         alt={product.name}
-                        className="w-full h-12 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-12 object-cover group-hover:scale-105 transition-transform duration-300 mt-[8px] mb-[8px] pt-[-13px] pb-[-13px]"
                       />
                       <Badge 
                         className={`absolute top-0.5 right-0.5 text-xs px-0.5 py-0 ${
