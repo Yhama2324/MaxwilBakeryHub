@@ -1,8 +1,10 @@
 import { users, products, orders, type User, type InsertUser, type Product, type InsertProduct, type Order, type InsertOrder } from "@shared/schema";
+import { db, pool } from "./db";
+import { eq } from "drizzle-orm";
 import session from "express-session";
-import createMemoryStore from "memorystore";
+import connectPg from "connect-pg-simple";
 
-const MemoryStore = createMemoryStore(session);
+const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -24,37 +26,40 @@ export interface IStorage {
   sessionStore: any;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private products: Map<number, Product>;
-  private orders: Map<number, Order>;
-  private currentUserId: number;
-  private currentProductId: number;
-  private currentOrderId: number;
+export class DatabaseStorage implements IStorage {
   sessionStore: any;
 
   constructor() {
-    this.users = new Map();
-    this.products = new Map();
-    this.orders = new Map();
-    this.currentUserId = 1;
-    this.currentProductId = 1;
-    this.currentOrderId = 1;
+    this.sessionStore = new PostgresSessionStore({ 
+      pool, 
+      createTableIfMissing: true 
+    });
     
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 86400000,
-    });
+    // Initialize database with admin user and sample products
+    this.initializeDatabase();
+  }
 
-    // Create default admin user with proper password that will be hashed
-    this.createUser({
-      username: "admin",
-      password: "maxwil2024", // This will be properly hashed by auth.ts
-      role: "admin",
-      securityCode: "BAKERY123"
-    });
+  private async initializeDatabase() {
+    try {
+      // Check if admin user exists
+      const existingAdmin = await this.getUserByUsername("admin");
+      if (!existingAdmin) {
+        await this.createUser({
+          username: "admin",
+          password: "maxwil2024", // This will be properly hashed by auth.ts
+          role: "admin",
+          securityCode: "BAKERY123"
+        });
+      }
 
-    // Create some initial products
-    this.initializeProducts();
+      // Initialize products if none exist
+      const existingProducts = await this.getAllProducts();
+      if (existingProducts.length === 0) {
+        await this.initializeProducts();
+      }
+    } catch (error) {
+      console.error("Database initialization error:", error);
+    }
   }
 
   private async initializeProducts() {
@@ -99,108 +104,101 @@ export class MemStorage implements IStorage {
   }
 
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { 
-      ...insertUser, 
-      id,
-      role: insertUser.role || "customer",
-      securityCode: insertUser.securityCode || null
-    };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values({
+        ...insertUser,
+        role: insertUser.role || "customer",
+        securityCode: insertUser.securityCode || null
+      })
+      .returning();
     return user;
   }
 
   async updateUserPassword(id: number, hashedPassword: string): Promise<void> {
-    const user = this.users.get(id);
-    if (user) {
-      user.password = hashedPassword;
-      this.users.set(id, user);
-    }
+    await db
+      .update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.id, id));
   }
 
   async getAllProducts(): Promise<Product[]> {
-    return Array.from(this.products.values()).filter(product => product.available);
+    return await db.select().from(products).where(eq(products.available, true));
   }
 
   async getProduct(id: number): Promise<Product | undefined> {
-    return this.products.get(id);
+    const [product] = await db.select().from(products).where(eq(products.id, id));
+    return product || undefined;
   }
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
-    const id = this.currentProductId++;
-    const product: Product = {
-      ...insertProduct,
-      id,
-      imageUrl: insertProduct.imageUrl || null,
-      available: insertProduct.available ?? true,
-      createdAt: new Date()
-    };
-    this.products.set(id, product);
+    const [product] = await db
+      .insert(products)
+      .values({
+        ...insertProduct,
+        imageUrl: insertProduct.imageUrl || null,
+        available: insertProduct.available ?? true
+      })
+      .returning();
     return product;
   }
 
   async updateProduct(id: number, insertProduct: InsertProduct): Promise<Product | undefined> {
-    const existingProduct = this.products.get(id);
-    if (!existingProduct) return undefined;
-
-    const updatedProduct: Product = {
-      ...insertProduct,
-      id,
-      imageUrl: insertProduct.imageUrl || null,
-      available: insertProduct.available ?? true,
-      createdAt: existingProduct.createdAt
-    };
-    this.products.set(id, updatedProduct);
-    return updatedProduct;
+    const [product] = await db
+      .update(products)
+      .set({
+        ...insertProduct,
+        imageUrl: insertProduct.imageUrl || null,
+        available: insertProduct.available ?? true
+      })
+      .where(eq(products.id, id))
+      .returning();
+    return product || undefined;
   }
 
   async deleteProduct(id: number): Promise<boolean> {
-    return this.products.delete(id);
+    const result = await db.delete(products).where(eq(products.id, id));
+    return (result.rowCount || 0) > 0;
   }
 
   async getAllOrders(): Promise<Order[]> {
-    return Array.from(this.orders.values()).sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    return await db.select().from(orders);
   }
 
   async getOrder(id: number): Promise<Order | undefined> {
-    return this.orders.get(id);
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    return order || undefined;
   }
 
   async createOrder(insertOrder: InsertOrder): Promise<Order> {
-    const id = this.currentOrderId++;
-    const order: Order = {
-      ...insertOrder,
-      id,
-      status: "pending",
-      createdAt: new Date()
-    };
-    this.orders.set(id, order);
+    const [order] = await db
+      .insert(orders)
+      .values({
+        ...insertOrder,
+        status: "pending"
+      })
+      .returning();
     return order;
   }
 
   async updateOrderStatus(id: number, status: string): Promise<Order | undefined> {
-    const order = this.orders.get(id);
-    if (!order) return undefined;
-
-    const updatedOrder: Order = {
-      ...order,
-      status
-    };
-    this.orders.set(id, updatedOrder);
-    return updatedOrder;
+    const [order] = await db
+      .update(orders)
+      .set({ status })
+      .where(eq(orders.id, id))
+      .returning();
+    return order || undefined;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
