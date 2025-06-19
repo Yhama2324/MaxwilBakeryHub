@@ -95,6 +95,55 @@ export class DatabaseStorage implements IStorage {
         category: "pastries",
         imageUrl: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
         available: true
+      },
+      // Fast Food Items
+      {
+        name: "Adobo Rice Bowl",
+        description: "Filipino adobo chicken with steamed rice and vegetables",
+        price: "120.00",
+        category: "fastfood",
+        imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+        available: true
+      },
+      {
+        name: "Fried Chicken Meal",
+        description: "Crispy fried chicken with rice and gravy",
+        price: "140.00",
+        category: "fastfood",
+        imageUrl: "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+        available: true
+      },
+      {
+        name: "Sisig Bowl",
+        description: "Sizzling pork sisig with rice and egg",
+        price: "130.00",
+        category: "fastfood",
+        imageUrl: "https://images.unsplash.com/photo-1563379091339-03246963d96c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+        available: true
+      },
+      {
+        name: "Beef Tapa",
+        description: "Sweet marinated beef with garlic rice and egg",
+        price: "135.00",
+        category: "fastfood",
+        imageUrl: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+        available: true
+      },
+      {
+        name: "Pancit Canton",
+        description: "Stir-fried noodles with vegetables and meat",
+        price: "110.00",
+        category: "fastfood",
+        imageUrl: "https://images.unsplash.com/photo-1555126634-323283e090fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+        available: true
+      },
+      {
+        name: "Fish Fillet Meal",
+        description: "Crispy fish fillet with rice and vegetables",
+        price: "125.00",
+        category: "fastfood",
+        imageUrl: "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+        available: true
       }
     ];
 
