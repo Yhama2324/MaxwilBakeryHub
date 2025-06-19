@@ -33,6 +33,7 @@ export default function AdminDashboard() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [productCategoryFilter, setProductCategoryFilter] = useState<string>("all");
+  const [defaultCategory, setDefaultCategory] = useState<string>("bread");
 
   const { data: products = [], isLoading: productsLoading } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -89,18 +90,13 @@ export default function AdminDashboard() {
 
   const handleAddProduct = () => {
     setSelectedProduct(null);
+    setDefaultCategory("bread");
     setIsProductModalOpen(true);
   };
 
   const handleAddFastFood = () => {
-    setSelectedProduct({ 
-      id: 0, 
-      name: "", 
-      description: "", 
-      price: "", 
-      category: "fastfood", 
-      imageUrl: "" 
-    } as Product);
+    setSelectedProduct(null);
+    setDefaultCategory("fastfood");
     setIsProductModalOpen(true);
   };
 
@@ -609,6 +605,7 @@ export default function AdminDashboard() {
         isOpen={isProductModalOpen}
         onClose={() => setIsProductModalOpen(false)}
         product={selectedProduct}
+        defaultCategory={defaultCategory}
         onSave={() => {
           setIsProductModalOpen(false);
           queryClient.invalidateQueries({ queryKey: ["/api/products"] });

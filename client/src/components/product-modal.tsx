@@ -65,8 +65,12 @@ export default function ProductModal({
 
   const saveMutation = useMutation({
     mutationFn: async (data: any) => {
-      const endpoint = isEdit ? `/api/products/${product.id}` : "/api/products";
+      if (isEdit && (!product || !product.id)) {
+        throw new Error("Product ID is missing for update operation");
+      }
+      const endpoint = isEdit ? `/api/products/${product?.id}` : "/api/products";
       const method = isEdit ? "PUT" : "POST";
+      console.log(`${method} request to:`, endpoint, "with data:", data);
       const res = await apiRequest(method, endpoint, data);
       return await res.json();
     },
