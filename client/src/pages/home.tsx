@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
+import { useCart } from "@/hooks/use-cart";
 import { Product } from "@shared/schema";
 import ProductGrid from "@/components/product-grid";
 import ShoppingCart from "@/components/shopping-cart";
@@ -15,8 +16,8 @@ import { Link } from "wouter";
 export default function HomePage() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
+  const { cart, addToCart, updateCartQuantity, removeFromCart, clearCart, cartTotal, cartItemCount } = useCart();
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [cartItems, setCartItems] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
@@ -32,41 +33,8 @@ export default function HomePage() {
   ];
 
   const filteredProducts = selectedCategory === "all" 
-    ? products 
+    ? products.filter(product => product.category !== "fastfood")
     : products.filter(product => product.category === selectedCategory);
-
-  const addToCart = (product: Product, quantity: number = 1) => {
-    setCartItems(prev => {
-      const existingItem = prev.find(item => item.id === product.id);
-      if (existingItem) {
-        return prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity }];
-    });
-  };
-
-  const updateCartQuantity = (productId: number, change: number) => {
-    setCartItems(prev => {
-      return prev.map(item => {
-        if (item.id === productId) {
-          const newQuantity = item.quantity + change;
-          return newQuantity <= 0 ? null : { ...item, quantity: newQuantity };
-        }
-        return item;
-      }).filter(Boolean);
-    });
-  };
-
-  const removeFromCart = (productId: number) => {
-    setCartItems(prev => prev.filter(item => item.id !== productId));
-  };
-
-  const cartTotal = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
-  const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-gray-50">
