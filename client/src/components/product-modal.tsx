@@ -37,6 +37,8 @@ export default function ProductModal({
     available: true
   });
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   useEffect(() => {
     if (product) {
       setFormData({
@@ -47,6 +49,7 @@ export default function ProductModal({
         imageUrl: product.imageUrl || "",
         available: product.available
       });
+      setSelectedFile(null);
     } else {
       setFormData({
         name: "",
@@ -56,8 +59,9 @@ export default function ProductModal({
         imageUrl: "",
         available: true
       });
+      setSelectedFile(null);
     }
-  }, [product]);
+  }, [product, isOpen]);
 
   const saveMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -128,18 +132,21 @@ export default function ProductModal({
     saveMutation.mutate(sanitizedData);
   };
 
-  const handleImageUrlChange = (url: string) => {
-    // Basic URL validation
-    const sanitizedUrl = url.trim();
-    if (sanitizedUrl && !sanitizedUrl.match(/^https?:\/\//)) {
+  const handleFileUpload = (file: File) => {
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "Invalid URL",
-        description: "Please enter a valid image URL starting with http:// or https://",
+        title: "File too large",
+        description: "Please select an image smaller than 5MB",
         variant: "destructive"
       });
       return;
     }
-    setFormData(prev => ({ ...prev, imageUrl: sanitizedUrl }));
+    
+    // Create preview URL
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedFile(file);
+    setFormData(prev => ({ ...prev, imageUrl: previewUrl }));
   };
 
   const categories = [
@@ -147,7 +154,9 @@ export default function ProductModal({
     { value: "pastries", label: "Pastries" },
     { value: "cakes", label: "Cakes" },
     { value: "cookies", label: "Cookies" },
-    { value: "beverages", label: "Beverages" }
+    { value: "beverages", label: "Beverages" },
+    { value: "meal", label: "Meal" },
+    { value: "fastfood", label: "Fast Food" }
   ];
 
   return (
@@ -229,19 +238,26 @@ export default function ProductModal({
           <div>
             <Label htmlFor="product-image" className="flex items-center space-x-1">
               <Upload className="h-4 w-4" />
-              <span>Product Image URL</span>
+              <span>Product Image</span>
             </Label>
-            <Input
-              id="product-image"
-              type="url"
-              placeholder="https://example.com/image.jpg"
-              value={formData.imageUrl}
-              onChange={(e) => handleImageUrlChange(e.target.value)}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Enter a direct URL to an image (JPG, PNG, etc.)
-            </p>
-            {formData.imageUrl && (
+            <div className="mt-2">
+              <Input
+                id="product-image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleFileUpload(file);
+                  }
+                }}
+                className="cursor-pointer"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Browse your computer to select an image (JPG, PNG, GIF, etc.)
+              </p>
+            </div>
+            {(formData.imageUrl || selectedFile) && (
               <div className="mt-2">
                 <img
                   src={formData.imageUrl}
@@ -254,6 +270,7 @@ export default function ProductModal({
                     e.currentTarget.style.display = "block";
                   }}
                 />
+                <p className="text-xs text-gray-500 mt-1">Image preview</p>
               </div>
             )}
           </div>
