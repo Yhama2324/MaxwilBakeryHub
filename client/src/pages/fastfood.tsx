@@ -223,7 +223,7 @@ export default function FastFoodPage() {
             </Button>
 
             {user ? (
-              <div className="relative">
+              <div className="relative" ref={userMenuRef}>
                 <Button
                   variant="ghost"
                   size="sm"
