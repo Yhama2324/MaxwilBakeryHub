@@ -117,7 +117,7 @@ export default function FastFoodPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5">
                 {[...Array(6)].map((_, i) => (
                   <Card key={i} className="overflow-hidden">
-                    <Skeleton className="h-12 w-full" />
+                    <Skeleton className="h-16 w-full" />
                     <CardContent className="p-1.5">
                       <Skeleton className="h-2 w-3/4 mb-0.5" />
                       <Skeleton className="h-2 w-full mb-0.5" />
@@ -140,7 +140,7 @@ export default function FastFoodPage() {
                       <img
                         src={product.imageUrl || '/placeholder-food.jpg'}
                         alt={product.name}
-                        className="w-full h-12 object-cover group-hover:scale-105 transition-transform duration-300 mt-[8px] mb-[8px] pt-[-13px] pb-[-13px]"
+                        className="w-full h-16 object-cover group-hover:scale-105 transition-transform duration-300 mt-[8px] mb-[8px] pt-[-13px] pb-[-13px]"
                       />
                       <Badge 
                         className={`absolute top-0.5 right-0.5 text-xs px-0.5 py-0 ${
