@@ -98,12 +98,12 @@ export default function FastFoodPage() {
       {/* Header */}
       <div className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-12">
-            <div className="flex items-center space-x-3">
-              <ChefHat className="h-6 w-6 text-orange-600" />
+          <div className="flex items-center justify-between h-14">
+            <div className="flex items-center space-x-2">
+              <ChefHat className="h-8 w-8 text-orange-600" />
               <div>
-                <h1 className="text-lg font-bold text-gray-900">MAXWIL' Fast Food</h1>
-                <p className="text-xs text-gray-600">Daily Cooked Meals & Filipino Favorites</p>
+                <h1 className="text-base font-bold text-gray-900">MAXWIL' Fast Food</h1>
+                <p className="text-xs text-gray-600">Daily Cooked Meals</p>
               </div>
             </div>
 
