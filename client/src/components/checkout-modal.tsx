@@ -8,7 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { CreditCard, Phone, MapPin, CheckCircle } from "lucide-react";
+import { CreditCard, Phone, MapPin, CheckCircle, ChefHat, Truck } from "lucide-react";
 import AddressInput from "@/components/address-input";
 
 interface CartItem {
@@ -160,15 +160,53 @@ export default function CheckoutModal({
       <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="max-w-md">
           <div className="text-center py-6">
-            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+            <div className="relative mb-6">
+              <CheckCircle className="h-16 w-16 text-green-500 mx-auto animate-bounce" />
+              <div className="absolute -top-2 -right-2">
+                <div className="animate-pulse">
+                  <div className="w-4 h-4 bg-green-400 rounded-full animate-ping"></div>
+                </div>
+              </div>
+            </div>
+            
             <h3 className="text-2xl font-bold text-bakery-dark mb-2">Order Placed Successfully!</h3>
+            
+            {/* Animated Status Steps */}
+            <div className="bg-orange-50 p-4 rounded-lg mb-4">
+              <div className="flex items-center justify-center space-x-6 mb-3">
+                <div className="flex flex-col items-center">
+                  <div className="bg-orange-100 p-2 rounded-full mb-1">
+                    <ChefHat className="h-5 w-5 text-orange-600 animate-bounce" />
+                  </div>
+                  <span className="text-xs text-orange-700 font-medium">Preparing</span>
+                </div>
+                
+                <div className="flex-1 h-0.5 bg-orange-200 relative">
+                  <div className="absolute inset-0 bg-orange-500 animate-pulse rounded-full"></div>
+                </div>
+                
+                <div className="flex flex-col items-center">
+                  <div className="bg-orange-100 p-2 rounded-full mb-1">
+                    <Truck className="h-5 w-5 text-orange-600 animate-pulse" />
+                  </div>
+                  <span className="text-xs text-orange-700 font-medium">Delivering</span>
+                </div>
+              </div>
+              
+              <p className="text-sm text-orange-700 font-medium animate-pulse">
+                🍳 Your meal is being prepared fresh! 
+              </p>
+            </div>
+            
             <p className="text-gray-600 mb-4">
               Thank you for your order. We'll contact you shortly to confirm the details and delivery time.
             </p>
+            
             <div className="bg-bakery-cream p-4 rounded-lg mb-4">
               <p className="text-sm font-medium text-bakery-dark">Order Total</p>
               <p className="text-2xl font-bold text-bakery-primary">{formatPrice(total)}</p>
             </div>
+            
             <Button onClick={handleClose} className="w-full bg-bakery-primary hover:bg-bakery-secondary">
               Continue Shopping
             </Button>

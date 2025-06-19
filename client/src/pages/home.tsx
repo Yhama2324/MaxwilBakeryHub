@@ -83,7 +83,7 @@ export default function HomePage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="button-press hover-lift"
+                  className="button-press hover-lift text-[#f24907]"
                 >
                   <ChefHat className="h-5 w-5 mr-2" />
                   Fast Food
