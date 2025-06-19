@@ -184,54 +184,62 @@ export default function AdminDashboard() {
       {/* Stats Cards */}
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          <Card>
-            <CardContent className="p-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-gray-600">Products</p>
-                  <p className="text-lg font-bold text-bakery-dark">{products.length}</p>
+          <Link href="/admin/products">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-600">Products</p>
+                    <p className="text-lg font-bold text-bakery-dark">{products.length}</p>
+                  </div>
+                  <Package className="h-5 w-5 text-bakery-primary" />
                 </div>
-                <Package className="h-5 w-5 text-bakery-primary" />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardContent className="p-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-gray-600">Active Orders</p>
-                  <p className="text-lg font-bold text-orange-600">{activeOrders}</p>
-                  <p className="text-xs text-gray-500">{pendingOrders}+{preparingOrders}</p>
+          <Link href="/admin/active-orders">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-600">Active Orders</p>
+                    <p className="text-lg font-bold text-orange-600">{activeOrders}</p>
+                    <p className="text-xs text-gray-500">{pendingOrders}+{preparingOrders}</p>
+                  </div>
+                  <ShoppingBag className="h-5 w-5 text-orange-500" />
                 </div>
-                <ShoppingBag className="h-5 w-5 text-orange-500" />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardContent className="p-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-gray-600">Total Orders</p>
-                  <p className="text-lg font-bold text-blue-600">{orders.length}</p>
+          <Link href="/admin/total-orders">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-600">Total Orders</p>
+                    <p className="text-lg font-bold text-blue-600">{orders.length}</p>
+                  </div>
+                  <ShoppingBag className="h-5 w-5 text-blue-500" />
                 </div>
-                <ShoppingBag className="h-5 w-5 text-blue-500" />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardContent className="p-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-gray-600">Revenue</p>
-                  <p className="text-lg font-bold text-green-600">{formatPrice(totalRevenue)}</p>
+          <Link href="/admin/revenue">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-600">Revenue</p>
+                    <p className="text-lg font-bold text-green-600">{formatPrice(totalRevenue)}</p>
+                  </div>
+                  <DollarSign className="h-5 w-5 text-green-500" />
                 </div>
-                <DollarSign className="h-5 w-5 text-green-500" />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         {/* Main Content */}

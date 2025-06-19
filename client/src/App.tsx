@@ -9,6 +9,10 @@ import HomePage from "@/pages/home";
 import FastFoodPage from "@/pages/fastfood";
 import AuthPage from "@/pages/auth-page";
 import AdminDashboard from "@/pages/admin-dashboard";
+import ProductsPage from "@/pages/products-page";
+import ActiveOrdersPage from "@/pages/active-orders-page";
+import TotalOrdersPage from "@/pages/total-orders-page";
+import RevenuePage from "@/pages/revenue-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import NotFound from "@/pages/not-found";
 
@@ -19,6 +23,10 @@ function Router() {
       <Route path="/fastfood" component={FastFoodPage} />
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/admin" component={AdminDashboard} adminOnly={true} />
+      <ProtectedRoute path="/admin/products" component={ProductsPage} adminOnly={true} />
+      <ProtectedRoute path="/admin/active-orders" component={ActiveOrdersPage} adminOnly={true} />
+      <ProtectedRoute path="/admin/total-orders" component={TotalOrdersPage} adminOnly={true} />
+      <ProtectedRoute path="/admin/revenue" component={RevenuePage} adminOnly={true} />
       <Route component={NotFound} />
     </Switch>
   );
