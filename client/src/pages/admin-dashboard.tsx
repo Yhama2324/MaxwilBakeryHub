@@ -1,0 +1,406 @@
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/use-auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { Product, Order } from "@shared/schema";
+import ProductModal from "@/components/product-modal";
+import MapComponent from "@/components/map-component";
+import { 
+  Package, 
+  ShoppingBag, 
+  Map, 
+  LogOut, 
+  Plus, 
+  Edit, 
+  Trash2,
+  Check,
+  X,
+  Clock,
+  DollarSign
+} from "lucide-react";
+
+export default function AdminDashboard() {
+  const { user, logoutMutation } = useAuth();
+  const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("products");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+
+  const { data: products = [], isLoading: productsLoading } = useQuery<Product[]>({
+    queryKey: ["/api/products"],
+  });
+
+  const { data: orders = [], isLoading: ordersLoading } = useQuery<Order[]>({
+    queryKey: ["/api/orders"],
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: async (productId: number) => {
+      await apiRequest("DELETE", `/api/products/${productId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+      toast({
+        title: "Success",
+        description: "Product deleted successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete product",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateOrderStatusMutation = useMutation({
+    mutationFn: async ({ orderId, status }: { orderId: number; status: string }) => {
+      await apiRequest("PUT", `/api/orders/${orderId}/status`, { status });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      toast({
+        title: "Success",
+        description: "Order status updated",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update order status",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleEditProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setIsProductModalOpen(true);
+  };
+
+  const handleAddProduct = () => {
+    setSelectedProduct(null);
+    setIsProductModalOpen(true);
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      deleteProductMutation.mutate(productId);
+    }
+  };
+
+  const handleUpdateOrderStatus = (orderId: number, status: string) => {
+    updateOrderStatusMutation.mutate({ orderId, status });
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "pending": return "bg-yellow-100 text-yellow-800";
+      case "accepted": return "bg-blue-100 text-blue-800";
+      case "preparing": return "bg-orange-100 text-orange-800";
+      case "delivered": return "bg-green-100 text-green-800";
+      case "cancelled": return "bg-red-100 text-red-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const formatPrice = (price: string | number) => {
+    return `₱${parseFloat(price.toString()).toFixed(2)}`;
+  };
+
+  const totalRevenue = orders
+    .filter(order => order.status === "delivered")
+    .reduce((sum, order) => sum + parseFloat(order.totalAmount), 0);
+
+  const pendingOrders = orders.filter(order => order.status === "pending").length;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-bakery-dark">Admin Dashboard</h1>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => logoutMutation.mutate()}
+                disabled={logoutMutation.isPending}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Products</p>
+                  <p className="text-2xl font-bold text-bakery-dark">{products.length}</p>
+                </div>
+                <Package className="h-8 w-8 text-bakery-primary" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Pending Orders</p>
+                  <p className="text-2xl font-bold text-yellow-600">{pendingOrders}</p>
+                </div>
+                <Clock className="h-8 w-8 text-yellow-500" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Orders</p>
+                  <p className="text-2xl font-bold text-bakery-dark">{orders.length}</p>
+                </div>
+                <ShoppingBag className="h-8 w-8 text-bakery-primary" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Revenue</p>
+                  <p className="text-2xl font-bold text-green-600">{formatPrice(totalRevenue)}</p>
+                </div>
+                <DollarSign className="h-8 w-8 text-green-500" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Main Content */}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-3 mb-6">
+            <TabsTrigger value="products" className="flex items-center space-x-2">
+              <Package className="h-4 w-4" />
+              <span>Products</span>
+            </TabsTrigger>
+            <TabsTrigger value="orders" className="flex items-center space-x-2">
+              <ShoppingBag className="h-4 w-4" />
+              <span>Orders</span>
+            </TabsTrigger>
+            <TabsTrigger value="map" className="flex items-center space-x-2">
+              <Map className="h-4 w-4" />
+              <span>Delivery Map</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="products">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Product Management</CardTitle>
+                  <Button onClick={handleAddProduct} className="bg-bakery-primary hover:bg-bakery-secondary">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Product
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {productsLoading ? (
+                  <div className="text-center py-8">Loading products...</div>
+                ) : products.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">No products found</div>
+                ) : (
+                  <div className="space-y-4">
+                    {products.map((product) => (
+                      <div key={product.id} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-4">
+                            <img
+                              src={product.imageUrl || "https://via.placeholder.com/80"}
+                              alt={product.name}
+                              className="w-16 h-16 object-cover rounded-lg"
+                            />
+                            <div>
+                              <h4 className="font-semibold text-bakery-dark">{product.name}</h4>
+                              <p className="text-sm text-gray-600">{product.description}</p>
+                              <div className="flex items-center space-x-2 mt-1">
+                                <span className="text-lg font-bold text-bakery-primary">
+                                  {formatPrice(product.price)}
+                                </span>
+                                <Badge variant="outline">{product.category}</Badge>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleEditProduct(product)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDeleteProduct(product.id)}
+                              disabled={deleteProductMutation.isPending}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="orders">
+            <Card>
+              <CardHeader>
+                <CardTitle>Order Management</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {ordersLoading ? (
+                  <div className="text-center py-8">Loading orders...</div>
+                ) : orders.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">No orders found</div>
+                ) : (
+                  <div className="space-y-4">
+                    {orders.map((order) => (
+                      <div key={order.id} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div>
+                            <h4 className="font-semibold text-bakery-dark">Order #{order.id}</h4>
+                            <p className="text-sm text-gray-500">
+                              {new Date(order.createdAt).toLocaleDateString()} • {order.customerName}
+                            </p>
+                          </div>
+                          <Badge className={getStatusColor(order.status)}>
+                            {order.status}
+                          </Badge>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <p className="text-sm font-medium text-gray-600">Items:</p>
+                            <p className="text-sm">{JSON.parse(order.items).map((item: any) => `${item.quantity}x ${item.name}`).join(", ")}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-600">Total:</p>
+                            <p className="text-lg font-bold text-bakery-primary">{formatPrice(order.totalAmount)}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-600">Phone:</p>
+                            <p className="text-sm">{order.customerPhone}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-600">Payment:</p>
+                            <p className="text-sm">{order.paymentMethod}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <p className="text-sm font-medium text-gray-600">Delivery Address:</p>
+                          <p className="text-sm">{order.deliveryAddress}</p>
+                        </div>
+
+                        {order.status === "pending" && (
+                          <div className="flex space-x-2">
+                            <Button
+                              size="sm"
+                              onClick={() => handleUpdateOrderStatus(order.id, "accepted")}
+                              disabled={updateOrderStatusMutation.isPending}
+                              className="bg-green-500 hover:bg-green-600"
+                            >
+                              <Check className="h-4 w-4 mr-1" />
+                              Accept
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleUpdateOrderStatus(order.id, "cancelled")}
+                              disabled={updateOrderStatusMutation.isPending}
+                            >
+                              <X className="h-4 w-4 mr-1" />
+                              Reject
+                            </Button>
+                          </div>
+                        )}
+
+                        {order.status === "accepted" && (
+                          <Button
+                            size="sm"
+                            onClick={() => handleUpdateOrderStatus(order.id, "preparing")}
+                            disabled={updateOrderStatusMutation.isPending}
+                            className="bg-orange-500 hover:bg-orange-600"
+                          >
+                            Start Preparing
+                          </Button>
+                        )}
+
+                        {order.status === "preparing" && (
+                          <Button
+                            size="sm"
+                            onClick={() => handleUpdateOrderStatus(order.id, "delivered")}
+                            disabled={updateOrderStatusMutation.isPending}
+                            className="bg-blue-500 hover:bg-blue-600"
+                          >
+                            Mark as Delivered
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="map">
+            <Card>
+              <CardHeader>
+                <CardTitle>Delivery Map</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <MapComponent orders={orders.filter(order => order.status !== "cancelled")} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* Product Modal */}
+      <ProductModal
+        isOpen={isProductModalOpen}
+        onClose={() => setIsProductModalOpen(false)}
+        product={selectedProduct}
+        onSave={() => {
+          setIsProductModalOpen(false);
+          queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+        }}
+      />
+    </div>
+  );
+}
