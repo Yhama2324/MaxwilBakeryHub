@@ -120,6 +120,8 @@ export default function AdminDashboard() {
     .reduce((sum, order) => sum + parseFloat(order.totalAmount), 0);
 
   const pendingOrders = orders.filter(order => order.status === "pending").length;
+  const preparingOrders = orders.filter(order => order.status === "preparing").length;
+  const activeOrders = pendingOrders + preparingOrders;
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden scrollbar-hide">
@@ -163,10 +165,11 @@ export default function AdminDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Pending Orders</p>
-                  <p className="text-2xl font-bold text-yellow-600">{pendingOrders}</p>
+                  <p className="text-sm font-medium text-gray-600">Active Orders</p>
+                  <p className="text-2xl font-bold text-orange-600">{activeOrders}</p>
+                  <p className="text-xs text-gray-500">{pendingOrders} pending, {preparingOrders} preparing</p>
                 </div>
-                <Clock className="h-8 w-8 text-yellow-500" />
+                <ShoppingBag className="h-8 w-8 text-orange-500" />
               </div>
             </CardContent>
           </Card>
@@ -198,7 +201,7 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             <TabsTrigger value="products" className="flex items-center space-x-2">
               <Package className="h-4 w-4" />
               <span>Products</span>
@@ -206,6 +209,10 @@ export default function AdminDashboard() {
             <TabsTrigger value="orders" className="flex items-center space-x-2">
               <ShoppingBag className="h-4 w-4" />
               <span>Orders</span>
+            </TabsTrigger>
+            <TabsTrigger value="history" className="flex items-center space-x-2">
+              <Clock className="h-4 w-4" />
+              <span>History</span>
             </TabsTrigger>
             <TabsTrigger value="map" className="flex items-center space-x-2">
               <Map className="h-4 w-4" />
@@ -289,7 +296,7 @@ export default function AdminDashboard() {
                   <div className="text-center py-8 text-gray-500">No orders found</div>
                 ) : (
                   <div className="space-y-4">
-                    {orders.map((order) => (
+                    {orders.filter(order => order.status === "pending" || order.status === "preparing").map((order) => (
                       <div key={order.id} className="bg-gray-50 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-3">
                           <div>
@@ -377,6 +384,124 @@ export default function AdminDashboard() {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="history">
+            <div className="space-y-6">
+              {/* Delivered Orders */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Check className="h-5 w-5 text-green-600" />
+                    <span>Delivered Orders</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {orders.filter(order => order.status === "delivered").length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">No delivered orders</div>
+                  ) : (
+                    <div className="space-y-4">
+                      {orders.filter(order => order.status === "delivered").map((order) => (
+                        <div key={order.id} className="bg-green-50 rounded-lg p-4 border border-green-200">
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <h4 className="font-semibold text-gray-800">Order #{order.id}</h4>
+                              <p className="text-sm text-gray-600">
+                                {new Date(order.createdAt).toLocaleDateString()} • {order.customerName}
+                              </p>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800 border-green-300">
+                              Delivered
+                            </Badge>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Items:</p>
+                              <p className="text-sm">{JSON.parse(order.items).map((item: any) => `${item.quantity}x ${item.name}`).join(", ")}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Total:</p>
+                              <p className="text-lg font-bold text-green-700">{formatPrice(order.totalAmount)}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Phone:</p>
+                              <p className="text-sm">{order.customerPhone}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Payment:</p>
+                              <p className="text-sm">{order.paymentMethod}</p>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <p className="text-sm font-medium text-gray-600">Delivery Address:</p>
+                            <p className="text-sm">{order.deliveryAddress}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Canceled Orders */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <X className="h-5 w-5 text-red-600" />
+                    <span>Canceled Orders</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {orders.filter(order => order.status === "cancelled").length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">No canceled orders</div>
+                  ) : (
+                    <div className="space-y-4">
+                      {orders.filter(order => order.status === "cancelled").map((order) => (
+                        <div key={order.id} className="bg-red-50 rounded-lg p-4 border border-red-200">
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <h4 className="font-semibold text-gray-800">Order #{order.id}</h4>
+                              <p className="text-sm text-gray-600">
+                                {new Date(order.createdAt).toLocaleDateString()} • {order.customerName}
+                              </p>
+                            </div>
+                            <Badge className="bg-red-100 text-red-800 border-red-300">
+                              Canceled
+                            </Badge>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Items:</p>
+                              <p className="text-sm">{JSON.parse(order.items).map((item: any) => `${item.quantity}x ${item.name}`).join(", ")}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Total:</p>
+                              <p className="text-lg font-bold text-red-700">{formatPrice(order.totalAmount)}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Phone:</p>
+                              <p className="text-sm">{order.customerPhone}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">Payment:</p>
+                              <p className="text-sm">{order.paymentMethod}</p>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <p className="text-sm font-medium text-gray-600">Delivery Address:</p>
+                            <p className="text-sm">{order.deliveryAddress}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="map">
