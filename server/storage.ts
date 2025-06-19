@@ -8,6 +8,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserPassword(id: number, hashedPassword: string): Promise<void>;
   
   getAllProducts(): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
@@ -20,7 +21,7 @@ export interface IStorage {
   createOrder(order: InsertOrder): Promise<Order>;
   updateOrderStatus(id: number, status: string): Promise<Order | undefined>;
 
-  sessionStore: session.SessionStore;
+  sessionStore: any;
 }
 
 export class MemStorage implements IStorage {
@@ -30,7 +31,7 @@ export class MemStorage implements IStorage {
   private currentUserId: number;
   private currentProductId: number;
   private currentOrderId: number;
-  sessionStore: session.SessionStore;
+  sessionStore: any;
 
   constructor() {
     this.users = new Map();
@@ -44,10 +45,10 @@ export class MemStorage implements IStorage {
       checkPeriod: 86400000,
     });
 
-    // Create default admin user
+    // Create default admin user with proper password that will be hashed
     this.createUser({
       username: "admin",
-      password: "$2a$10$encrypted.password.hash", // This will be properly hashed by auth.ts
+      password: "maxwil2024", // This will be properly hashed by auth.ts
       role: "admin",
       securityCode: "BAKERY123"
     });
@@ -109,7 +110,12 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
+    const user: User = { 
+      ...insertUser, 
+      id,
+      role: insertUser.role || "customer",
+      securityCode: insertUser.securityCode || null
+    };
     this.users.set(id, user);
     return user;
   }
@@ -127,6 +133,8 @@ export class MemStorage implements IStorage {
     const product: Product = {
       ...insertProduct,
       id,
+      imageUrl: insertProduct.imageUrl || null,
+      available: insertProduct.available ?? true,
       createdAt: new Date()
     };
     this.products.set(id, product);
@@ -140,6 +148,8 @@ export class MemStorage implements IStorage {
     const updatedProduct: Product = {
       ...insertProduct,
       id,
+      imageUrl: insertProduct.imageUrl || null,
+      available: insertProduct.available ?? true,
       createdAt: existingProduct.createdAt
     };
     this.products.set(id, updatedProduct);

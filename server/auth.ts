@@ -43,11 +43,28 @@ export function setupAuth(app: Express) {
 
   passport.use(
     new LocalStrategy(async (username, password, done) => {
-      const user = await storage.getUserByUsername(username);
-      if (!user || !(await comparePasswords(password, user.password))) {
-        return done(null, false);
-      } else {
+      try {
+        const user = await storage.getUserByUsername(username);
+        if (!user) {
+          return done(null, false, { message: "Invalid username or password" });
+        }
+
+        // For admin users, check if password needs initial hashing
+        if (user.username === "admin" && user.password === "maxwil2024") {
+          // First-time admin login - hash the password
+          const hashedPassword = await hashPassword(password);
+          await storage.updateUserPassword(user.id, hashedPassword);
+          return done(null, user);
+        }
+
+        const isValidPassword = await comparePasswords(password, user.password);
+        if (!isValidPassword) {
+          return done(null, false, { message: "Invalid username or password" });
+        }
+
         return done(null, user);
+      } catch (error) {
+        return done(error);
       }
     }),
   );
@@ -59,20 +76,38 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/register", async (req, res, next) => {
-    const existingUser = await storage.getUserByUsername(req.body.username);
-    if (existingUser) {
-      return res.status(400).send("Username already exists");
+    try {
+      // Sanitize input
+      const { username, password, role, securityCode } = req.body;
+      
+      if (!username || !password) {
+        return res.status(400).json({ message: "Username and password are required" });
+      }
+
+      // Security validation for admin registration
+      if (role === "admin" && securityCode !== "BAKERY123") {
+        return res.status(403).json({ message: "Invalid security code for admin registration" });
+      }
+
+      const existingUser = await storage.getUserByUsername(username.trim());
+      if (existingUser) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+
+      const user = await storage.createUser({
+        username: username.trim(),
+        password: await hashPassword(password),
+        role: role || "customer",
+        securityCode: role === "admin" ? securityCode : undefined,
+      });
+
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.status(201).json(user);
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Registration failed" });
     }
-
-    const user = await storage.createUser({
-      ...req.body,
-      password: await hashPassword(req.body.password),
-    });
-
-    req.login(user, (err) => {
-      if (err) return next(err);
-      res.status(201).json(user);
-    });
   });
 
   app.post("/api/login", passport.authenticate("local"), (req, res) => {
