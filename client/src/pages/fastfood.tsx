@@ -98,7 +98,7 @@ export default function FastFoodPage() {
       {/* Header */}
       <div className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
+          <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-3">
               <ChefHat className="h-6 w-6 text-orange-600" />
               <div>
@@ -147,7 +147,7 @@ export default function FastFoodPage() {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-2 flex-shrink-0">
+      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-1 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-lg font-bold mb-1">Fresh Daily Cooked Meals</h2>
           <div className="flex items-center justify-center space-x-4 text-orange-100 text-xs">
@@ -169,8 +169,8 @@ export default function FastFoodPage() {
 
       {/* Products Grid */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-          <div className="mb-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
+          <div className="mb-1">
             <h3 className="text-base font-bold text-gray-900 mb-1">Today's Menu</h3>
             <p className="text-gray-600 text-xs">Delicious Filipino meals cooked fresh daily</p>
           </div>
@@ -246,7 +246,7 @@ export default function FastFoodPage() {
       </div>
 
       {/* Daily Specials Banner */}
-      <div className="bg-orange-100 py-1 flex-shrink-0">
+      <div className="bg-orange-100 py-0.5 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-orange-700 text-xs">Fresh meals cooked every morning • Available while supplies last</p>
         </div>
