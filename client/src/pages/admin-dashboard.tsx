@@ -190,38 +190,38 @@ export default function AdminDashboard() {
           </Card>
 
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Orders</p>
-                  <p className="text-2xl font-bold text-orange-600">{activeOrders}</p>
-                  <p className="text-xs text-gray-500">{pendingOrders} pending, {preparingOrders} preparing</p>
+                  <p className="text-xs font-medium text-gray-600">Active Orders</p>
+                  <p className="text-lg font-bold text-orange-600">{activeOrders}</p>
+                  <p className="text-xs text-gray-500">{pendingOrders}+{preparingOrders}</p>
                 </div>
-                <ShoppingBag className="h-8 w-8 text-orange-500" />
+                <ShoppingBag className="h-5 w-5 text-orange-500" />
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                  <p className="text-2xl font-bold text-bakery-dark">{orders.length}</p>
+                  <p className="text-xs font-medium text-gray-600">Total Orders</p>
+                  <p className="text-lg font-bold text-blue-600">{orders.length}</p>
                 </div>
-                <ShoppingBag className="h-8 w-8 text-bakery-primary" />
+                <ShoppingBag className="h-5 w-5 text-blue-500" />
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Revenue</p>
-                  <p className="text-2xl font-bold text-green-600">{formatPrice(totalRevenue)}</p>
+                  <p className="text-xs font-medium text-gray-600">Revenue</p>
+                  <p className="text-lg font-bold text-green-600">{formatPrice(totalRevenue)}</p>
                 </div>
-                <DollarSign className="h-8 w-8 text-green-500" />
+                <DollarSign className="h-5 w-5 text-green-500" />
               </div>
             </CardContent>
           </Card>
