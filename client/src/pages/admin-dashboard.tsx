@@ -115,6 +115,20 @@ export default function AdminDashboard() {
     return `₱${parseFloat(price.toString()).toFixed(2)}`;
   };
 
+  const formatDateTime = (dateString: any) => {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Manila'
+    };
+    return date.toLocaleString('en-US', options) + ' PHT';
+  };
+
   const totalRevenue = orders
     .filter(order => order.status === "delivered")
     .reduce((sum, order) => sum + parseFloat(order.totalAmount), 0);
@@ -302,7 +316,7 @@ export default function AdminDashboard() {
                           <div>
                             <h4 className="font-semibold text-bakery-dark">Order #{order.id}</h4>
                             <p className="text-sm text-gray-500">
-                              {new Date(order.createdAt).toLocaleDateString()} • {order.customerName}
+                              {formatDateTime(order.createdAt)} • {order.customerName}
                             </p>
                           </div>
                           <Badge className={getStatusColor(order.status)}>
@@ -407,7 +421,7 @@ export default function AdminDashboard() {
                             <div>
                               <h4 className="font-semibold text-gray-800">Order #{order.id}</h4>
                               <p className="text-sm text-gray-600">
-                                {new Date(order.createdAt).toLocaleDateString()} • {order.customerName}
+                                {formatDateTime(order.createdAt)} • {order.customerName}
                               </p>
                             </div>
                             <Badge className="bg-green-100 text-green-800 border-green-300">
