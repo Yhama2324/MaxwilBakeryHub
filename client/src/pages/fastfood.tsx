@@ -146,7 +146,7 @@ export default function FastFoodPage() {
         </div>
       </div>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-1 flex-shrink-0 pt-[3px] pb-[3px] mt-[36px] mb-[36px]">
+      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-1 flex-shrink-0 pt-[3px] pb-[3px] mt-[8px] mb-[8px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-[-6px] pb-[-6px] mt-[12px] mb-[12px]">
           <h2 className="text-lg font-bold mb-1">Fresh Daily Cooked Meals</h2>
           <div className="flex items-center justify-center space-x-4 text-orange-100 text-xs">
