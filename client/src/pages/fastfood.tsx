@@ -59,7 +59,7 @@ export default function FastFoodPage() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-orange-50 to-red-50 flex flex-col overflow-hidden">
+    <div className="h-screen bg-gradient-to-br from-orange-50 to-red-50 flex flex-col overflow-hidden scrollbar-hide">
       {/* Header */}
       <div className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[-7px] pb-[-7px] mt-[14px] mb-[14px]">
@@ -197,23 +197,23 @@ export default function FastFoodPage() {
       </div>
 
       {/* Products Grid */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
+      <div className="flex-1 overflow-y-auto scrollbar-hide">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-1">
           <div className="mb-1">
-            <h3 className="text-base font-bold text-gray-900 mb-1">Today's Menu</h3>
+            <h3 className="text-sm font-bold text-gray-900 mb-0.5">Today's Menu</h3>
             <p className="text-gray-600 text-xs">Delicious Filipino meals cooked fresh daily</p>
           </div>
 
-          <div className="pb-2">
+          <div className="pb-1">
             {isLoading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                {[...Array(8)].map((_, i) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5">
+                {[...Array(6)].map((_, i) => (
                   <Card key={i} className="overflow-hidden">
-                    <Skeleton className="h-16 w-full" />
-                    <CardContent className="p-2">
-                      <Skeleton className="h-2 w-3/4 mb-1" />
-                      <Skeleton className="h-2 w-full mb-1" />
-                      <Skeleton className="h-4 w-12" />
+                    <Skeleton className="h-12 w-full" />
+                    <CardContent className="p-1.5">
+                      <Skeleton className="h-2 w-3/4 mb-0.5" />
+                      <Skeleton className="h-2 w-full mb-0.5" />
+                      <Skeleton className="h-3 w-12" />
                     </CardContent>
                   </Card>
                 ))}
@@ -225,32 +225,32 @@ export default function FastFoodPage() {
                 <p className="text-gray-500 text-sm">Check back later for today's fresh meals!</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 pb-1">
                 {fastfoodProducts.map((product) => (
                   <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
                     <div className="relative">
                       <img
                         src={product.imageUrl || '/placeholder-food.jpg'}
                         alt={product.name}
-                        className="w-full h-16 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-12 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <Badge 
-                        className={`absolute top-1 right-1 text-xs px-1 py-0 ${
+                        className={`absolute top-0.5 right-0.5 text-xs px-0.5 py-0 ${
                           product.available 
                             ? 'bg-green-500 text-white' 
                             : 'bg-red-500 text-white'
                         }`}
                       >
-                        {product.available ? 'Available' : 'Sold Out'}
+                        {product.available ? 'OK' : 'Out'}
                       </Badge>
                     </div>
                     
-                    <CardContent className="p-2">
-                      <h4 className="font-semibold text-xs text-gray-900 mb-1">{product.name}</h4>
-                      <p className="text-gray-600 text-xs mb-1 line-clamp-1">{product.description}</p>
+                    <CardContent className="p-1.5">
+                      <h4 className="font-semibold text-xs text-gray-900 mb-0.5 leading-tight">{product.name}</h4>
+                      <p className="text-gray-600 text-xs mb-1 line-clamp-1 leading-tight">{product.description}</p>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-orange-600">
+                        <span className="text-xs font-bold text-orange-600">
                           {formatPrice(product.price)}
                         </span>
                         
@@ -259,10 +259,9 @@ export default function FastFoodPage() {
                           variant="outline"
                           onClick={() => handleAddToCart(product)}
                           disabled={!product.available}
-                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-1 py-0 h-5"
+                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-1 py-0 h-4"
                         >
-                          <Plus className="h-2 w-2 mr-1" />
-                          Add
+                          <Plus className="h-2 w-2" />
                         </Button>
                       </div>
                     </CardContent>

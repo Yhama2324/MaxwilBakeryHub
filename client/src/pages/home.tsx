@@ -62,10 +62,10 @@ export default function HomePage() {
   }, [showUserMenu]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen bg-gray-50 flex flex-col overflow-hidden scrollbar-hide">
       {/* Navigation */}
-      <nav className="bg-white shadow-lg sticky top-0 z-50">
-        <div className="max-w-md mx-auto px-4 py-3">
+      <nav className="bg-white shadow-lg flex-shrink-0 z-50">
+        <div className="max-w-md mx-auto px-4 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Wheat className="h-8 w-8 text-bakery-primary" />
@@ -176,7 +176,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <div 
-        className="relative h-64 bg-cover bg-center"
+        className="relative h-32 bg-cover bg-center flex-shrink-0"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600')"
         }}
@@ -184,10 +184,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         <div className="relative z-10 flex items-center justify-center h-full text-center text-white px-4">
           <div className="animate-fade-in">
-            <h1 className="text-3xl font-bold mb-2">MAXWIL' Bakery</h1>
-            <p className="text-lg opacity-90">Fresh Baked Daily with Love</p>
-            <div className="mt-4">
-              <Badge className="bg-green-500 text-white">
+            <h1 className="text-xl font-bold mb-1">MAXWIL' Bakery</h1>
+            <p className="text-sm opacity-90">Fresh Baked Daily with Love</p>
+            <div className="mt-2">
+              <Badge className="bg-green-500 text-white text-xs">
                 🕕 Open 6AM - 8PM
               </Badge>
             </div>
@@ -196,21 +196,21 @@ export default function HomePage() {
       </div>
 
       {/* Category Filter */}
-      <div className="max-w-md mx-auto px-4 py-6">
-        <div className="grid grid-cols-4 gap-3">
+      <div className="max-w-md mx-auto px-4 py-2 flex-shrink-0">
+        <div className="grid grid-cols-4 gap-2">
           {categories.map((category) => (
             <Button
               key={category.id}
               variant={selectedCategory === category.id ? "default" : "outline"}
-              className={`p-4 h-auto flex-col space-y-2 transition-all duration-200 transform hover:scale-105 button-press hover-lift ${
+              className={`p-2 h-auto flex-col space-y-1 transition-all duration-200 transform hover:scale-105 button-press hover-lift ${
                 selectedCategory === category.id 
                   ? "bg-bakery-primary hover:bg-bakery-secondary border-bakery-primary animate-scale-in" 
                   : "border-2 hover:border-bakery-primary"
               }`}
               onClick={() => setSelectedCategory(category.id)}
             >
-              <span className="text-2xl">{category.icon}</span>
-              <span className="text-sm font-medium">{category.name}</span>
+              <span className="text-lg">{category.icon}</span>
+              <span className="text-xs font-medium">{category.name}</span>
             </Button>
           ))}
         </div>
