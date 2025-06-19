@@ -166,6 +166,27 @@
     100% { transform: scale(1); opacity: 1; }
   }
 
+  @keyframes cooking {
+    0%, 100% { transform: rotate(-5deg) scale(1); }
+    25% { transform: rotate(5deg) scale(1.1); }
+    50% { transform: rotate(-3deg) scale(1.05); }
+    75% { transform: rotate(3deg) scale(1.1); }
+  }
+
+  @keyframes delivery-truck {
+    0% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    100% { transform: translateX(-3px); }
+  }
+
+  .animate-cooking {
+    animation: cooking 2s ease-in-out infinite;
+  }
+
+  .animate-delivery {
+    animation: delivery-truck 1.5s ease-in-out infinite;
+  }
+
   /* Loading animation */
   .loading-shimmer {
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);

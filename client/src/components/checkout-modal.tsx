@@ -176,7 +176,7 @@ export default function CheckoutModal({
               <div className="flex items-center justify-center space-x-6 mb-3">
                 <div className="flex flex-col items-center">
                   <div className="bg-orange-100 p-2 rounded-full mb-1">
-                    <ChefHat className="h-5 w-5 text-orange-600 animate-bounce" />
+                    <ChefHat className="h-5 w-5 text-orange-600 animate-cooking" />
                   </div>
                   <span className="text-xs text-orange-700 font-medium">Preparing</span>
                 </div>
@@ -187,7 +187,7 @@ export default function CheckoutModal({
                 
                 <div className="flex flex-col items-center">
                   <div className="bg-orange-100 p-2 rounded-full mb-1">
-                    <Truck className="h-5 w-5 text-orange-600 animate-pulse" />
+                    <Truck className="h-5 w-5 text-orange-600 animate-delivery" />
                   </div>
                   <span className="text-xs text-orange-700 font-medium">Delivering</span>
                 </div>
