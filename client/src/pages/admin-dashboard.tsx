@@ -175,16 +175,16 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+      <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Products</p>
-                  <p className="text-2xl font-bold text-bakery-dark">{products.length}</p>
+                  <p className="text-xs font-medium text-gray-600">Products</p>
+                  <p className="text-lg font-bold text-bakery-dark">{products.length}</p>
                 </div>
-                <Package className="h-8 w-8 text-bakery-primary" />
+                <Package className="h-5 w-5 text-bakery-primary" />
               </div>
             </CardContent>
           </Card>
@@ -250,29 +250,38 @@ export default function AdminDashboard() {
 
           <TabsContent value="products">
             <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <CardTitle>Product Management</CardTitle>
-                  <div className="flex items-center space-x-2">
-                    <Button onClick={handleAddFastFood} className="bg-orange-600 hover:bg-orange-700 text-white">
-                      <ChefHat className="h-4 w-4 mr-2" />
-                      Add Fast Food
-                    </Button>
-                    <Button onClick={handleAddProduct} className="bg-bakery-primary hover:bg-bakery-secondary">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Bakery Item
-                    </Button>
+              <CardHeader className="pb-4">
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">Product Management</CardTitle>
+                    <div className="flex items-center space-x-1">
+                      <Button 
+                        onClick={handleAddFastFood} 
+                        size="sm" 
+                        className="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 text-xs"
+                      >
+                        <ChefHat className="h-3 w-3 mr-1" />
+                        Fast Food
+                      </Button>
+                      <Button 
+                        onClick={handleAddProduct} 
+                        size="sm" 
+                        className="bg-bakery-primary hover:bg-bakery-secondary px-2 py-1 text-xs"
+                      >
+                        <Plus className="h-3 w-3 mr-1" />
+                        Bakery
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Category Filter */}
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm font-medium text-gray-600">Filter by category:</span>
-                  <div className="flex space-x-2">
+                  
+                  {/* Category Filter */}
+                  <div className="flex items-center flex-wrap gap-2">
+                    <span className="text-xs font-medium text-gray-600">Filter:</span>
                     <Button 
                       variant={productCategoryFilter === "all" ? "default" : "outline"}
                       size="sm"
                       onClick={() => setProductCategoryFilter("all")}
+                      className="h-6 px-2 text-xs"
                     >
                       All ({products.length})
                     </Button>
@@ -280,7 +289,7 @@ export default function AdminDashboard() {
                       variant={productCategoryFilter === "bakery" ? "default" : "outline"}
                       size="sm"
                       onClick={() => setProductCategoryFilter("bakery")}
-                      className="text-bakery-primary border-bakery-primary hover:bg-bakery-cream"
+                      className="h-6 px-2 text-xs text-bakery-primary border-bakery-primary hover:bg-bakery-cream"
                     >
                       Bakery ({products.filter(p => p.category === "bakery").length})
                     </Button>
@@ -288,77 +297,79 @@ export default function AdminDashboard() {
                       variant={productCategoryFilter === "fastfood" ? "default" : "outline"}
                       size="sm"
                       onClick={() => setProductCategoryFilter("fastfood")}
-                      className="text-orange-600 border-orange-600 hover:bg-orange-50"
+                      className="h-6 px-2 text-xs text-orange-600 border-orange-600 hover:bg-orange-50"
                     >
                       Fast Food ({products.filter(p => p.category === "fastfood").length})
                     </Button>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-2">
                 {productsLoading ? (
-                  <div className="text-center py-8">Loading products...</div>
+                  <div className="text-center py-4 text-sm">Loading products...</div>
                 ) : products.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">No products found</div>
+                  <div className="text-center py-4 text-gray-500 text-sm">No products found</div>
                 ) : products.filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter).length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-4 text-gray-500 text-sm">
                     No {productCategoryFilter === "bakery" ? "bakery" : productCategoryFilter === "fastfood" ? "fast food" : ""} products found
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     {products
                       .filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter)
                       .map((product) => (
-                      <div key={product.id} className={`rounded-lg p-4 ${
+                      <div key={product.id} className={`rounded-lg p-3 ${
                         product.category === "fastfood" 
                           ? "bg-orange-50 border border-orange-200" 
                           : "bg-gray-50"
                       }`}>
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-3">
                             <img
-                              src={product.imageUrl || "https://via.placeholder.com/80"}
+                              src={product.imageUrl || "https://via.placeholder.com/60"}
                               alt={product.name}
-                              className="w-16 h-16 object-cover rounded-lg"
+                              className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                             />
-                            <div>
-                              <h4 className="font-semibold text-bakery-dark">{product.name}</h4>
-                              <p className="text-sm text-gray-600">{product.description}</p>
-                              <div className="flex items-center space-x-2 mt-1">
-                                <span className="text-lg font-bold text-bakery-primary">
-                                  {formatPrice(product.price)}
-                                </span>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center space-x-2">
+                                <h4 className="font-semibold text-sm text-bakery-dark truncate">{product.name}</h4>
                                 <Badge 
                                   variant="outline" 
-                                  className={product.category === "fastfood" 
+                                  className={`text-xs px-1 py-0 ${product.category === "fastfood" 
                                     ? "border-orange-500 text-orange-700 bg-orange-50" 
                                     : "border-bakery-primary text-bakery-primary bg-bakery-cream/30"
-                                  }
+                                  }`}
                                 >
                                   {product.category === "fastfood" ? (
-                                    <><ChefHat className="h-3 w-3 mr-1" />Fast Food</>
+                                    <><ChefHat className="h-2 w-2 mr-1" />FF</>
                                   ) : (
-                                    <><Package className="h-3 w-3 mr-1" />Bakery</>
+                                    <><Package className="h-2 w-2 mr-1" />B</>
                                   )}
                                 </Badge>
                               </div>
+                              <p className="text-xs text-gray-600 truncate">{product.description}</p>
+                              <span className="text-sm font-bold text-bakery-primary">
+                                {formatPrice(product.price)}
+                              </span>
                             </div>
                           </div>
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1">
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleEditProduct(product)}
+                              className="h-7 w-7 p-0"
                             >
-                              <Edit className="h-4 w-4" />
+                              <Edit className="h-3 w-3" />
                             </Button>
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleDeleteProduct(product.id)}
                               disabled={deleteProductMutation.isPending}
+                              className="h-7 w-7 p-0 text-red-600 hover:bg-red-50 hover:border-red-300"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-3 w-3" />
                             </Button>
                           </div>
                         </div>
