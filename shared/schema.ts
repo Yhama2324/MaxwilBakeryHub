@@ -53,8 +53,8 @@ export const insertOrderSchema = createInsertSchema(orders).omit({
   createdAt: true,
   status: true,
 }).extend({
-  deliveryLatitude: z.string().optional(),
-  deliveryLongitude: z.string().optional(),
+  deliveryLatitude: z.string().nullable().optional(),
+  deliveryLongitude: z.string().nullable().optional(),
 });
 
 // Relations

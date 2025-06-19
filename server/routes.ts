@@ -156,10 +156,11 @@ export function registerRoutes(app: Express): Server {
       const order = await storage.createOrder(validatedData);
       res.status(201).json(order);
     } catch (error) {
+      console.error("Order creation error:", error);
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid order data", errors: error.errors });
       }
-      res.status(500).json({ message: "Failed to create order" });
+      res.status(500).json({ message: "Failed to create order", error: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 

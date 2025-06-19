@@ -108,7 +108,8 @@ export default function CheckoutModal({
         name: item.name,
         price: item.price,
         quantity: item.quantity
-      })))
+      }))),
+      coordinates: formData.coordinates
     };
 
     orderMutation.mutate(orderData);
