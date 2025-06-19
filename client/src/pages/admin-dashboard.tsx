@@ -22,7 +22,8 @@ import {
   Check,
   X,
   Clock,
-  DollarSign
+  DollarSign,
+  ChefHat
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -31,6 +32,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("products");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [productCategoryFilter, setProductCategoryFilter] = useState<string>("all");
 
   const { data: products = [], isLoading: productsLoading } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -87,6 +89,18 @@ export default function AdminDashboard() {
 
   const handleAddProduct = () => {
     setSelectedProduct(null);
+    setIsProductModalOpen(true);
+  };
+
+  const handleAddFastFood = () => {
+    setSelectedProduct({ 
+      id: 0, 
+      name: "", 
+      description: "", 
+      price: "", 
+      category: "fastfood", 
+      imageUrl: "" 
+    } as Product);
     setIsProductModalOpen(true);
   };
 
@@ -237,12 +251,48 @@ export default function AdminDashboard() {
           <TabsContent value="products">
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-4">
                   <CardTitle>Product Management</CardTitle>
-                  <Button onClick={handleAddProduct} className="bg-bakery-primary hover:bg-bakery-secondary">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Product
-                  </Button>
+                  <div className="flex items-center space-x-2">
+                    <Button onClick={handleAddFastFood} className="bg-orange-600 hover:bg-orange-700 text-white">
+                      <ChefHat className="h-4 w-4 mr-2" />
+                      Add Fast Food
+                    </Button>
+                    <Button onClick={handleAddProduct} className="bg-bakery-primary hover:bg-bakery-secondary">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Bakery Item
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Category Filter */}
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm font-medium text-gray-600">Filter by category:</span>
+                  <div className="flex space-x-2">
+                    <Button 
+                      variant={productCategoryFilter === "all" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setProductCategoryFilter("all")}
+                    >
+                      All ({products.length})
+                    </Button>
+                    <Button 
+                      variant={productCategoryFilter === "bakery" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setProductCategoryFilter("bakery")}
+                      className="text-bakery-primary border-bakery-primary hover:bg-bakery-cream"
+                    >
+                      Bakery ({products.filter(p => p.category === "bakery").length})
+                    </Button>
+                    <Button 
+                      variant={productCategoryFilter === "fastfood" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setProductCategoryFilter("fastfood")}
+                      className="text-orange-600 border-orange-600 hover:bg-orange-50"
+                    >
+                      Fast Food ({products.filter(p => p.category === "fastfood").length})
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
@@ -250,10 +300,20 @@ export default function AdminDashboard() {
                   <div className="text-center py-8">Loading products...</div>
                 ) : products.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">No products found</div>
+                ) : products.filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter).length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    No {productCategoryFilter === "bakery" ? "bakery" : productCategoryFilter === "fastfood" ? "fast food" : ""} products found
+                  </div>
                 ) : (
                   <div className="space-y-4">
-                    {products.map((product) => (
-                      <div key={product.id} className="bg-gray-50 rounded-lg p-4">
+                    {products
+                      .filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter)
+                      .map((product) => (
+                      <div key={product.id} className={`rounded-lg p-4 ${
+                        product.category === "fastfood" 
+                          ? "bg-orange-50 border border-orange-200" 
+                          : "bg-gray-50"
+                      }`}>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-4">
                             <img
@@ -268,7 +328,19 @@ export default function AdminDashboard() {
                                 <span className="text-lg font-bold text-bakery-primary">
                                   {formatPrice(product.price)}
                                 </span>
-                                <Badge variant="outline">{product.category}</Badge>
+                                <Badge 
+                                  variant="outline" 
+                                  className={product.category === "fastfood" 
+                                    ? "border-orange-500 text-orange-700 bg-orange-50" 
+                                    : "border-bakery-primary text-bakery-primary bg-bakery-cream/30"
+                                  }
+                                >
+                                  {product.category === "fastfood" ? (
+                                    <><ChefHat className="h-3 w-3 mr-1" />Fast Food</>
+                                  ) : (
+                                    <><Package className="h-3 w-3 mr-1" />Bakery</>
+                                  )}
+                                </Badge>
                               </div>
                             </div>
                           </div>
