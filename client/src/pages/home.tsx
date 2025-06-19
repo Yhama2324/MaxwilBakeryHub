@@ -10,7 +10,7 @@ import { Product } from "@shared/schema";
 import ProductGrid from "@/components/product-grid";
 import ShoppingCart from "@/components/shopping-cart";
 import CheckoutModal from "@/components/checkout-modal";
-import { ShoppingCart as CartIcon, ShieldX, Wheat, MapPin, Phone, ChefHat, User, LogOut, Settings } from "lucide-react";
+import { ShoppingCart as CartIcon, ShieldX, Wheat, MapPin, Phone, ChefHat, User, LogOut, Settings, Home, Menu } from "lucide-react";
 import { Link } from "wouter";
 
 export default function HomePage() {
@@ -63,116 +63,15 @@ export default function HomePage() {
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col overflow-hidden scrollbar-hide">
-      {/* Navigation */}
-      <nav className="bg-white shadow-lg flex-shrink-0 z-50">
+      {/* Top Header */}
+      <div className="bg-white shadow-sm flex-shrink-0 z-50">
         <div className="max-w-md mx-auto px-4 py-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Wheat className="h-8 w-8 text-bakery-primary" />
-              <span className="text-xl font-bold text-bakery-dark">MAXWIL'</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Link href="/fastfood">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="button-press hover-lift text-[#f24907]"
-                >
-                  <ChefHat className="h-4 w-4 mr-1" />
-                  Fast Food
-                </Button>
-              </Link>
-              
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative p-2 button-press hover-lift"
-                onClick={() => setIsCartOpen(true)}
-              >
-                <CartIcon className="h-5 w-5" />
-                {cartItemCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 animate-scale-in">
-                    {cartItemCount}
-                  </Badge>
-                )}
-              </Button>
-
-              {user ? (
-                <div className="relative" ref={userMenuRef}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-1 text-bakery-primary hover:bg-bakery-cream"
-                  >
-                    <User className="h-4 w-4" />
-                    <span className="text-xs">{user.username}</span>
-                  </Button>
-                  
-                  {showUserMenu && (
-                    <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border z-50">
-                      <div className="p-2">
-                        <div className="px-3 py-2 border-b">
-                          <p className="text-sm font-medium text-gray-900">{user.username}</p>
-                          <p className="text-xs text-gray-500">Welcome back!</p>
-                        </div>
-                        
-                        {user.role === "admin" && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setLocation("/admin");
-                              setShowUserMenu(false);
-                            }}
-                            className="w-full justify-start text-xs"
-                          >
-                            <ShieldX className="h-4 w-4 mr-2" />
-                            Admin Dashboard
-                          </Button>
-                        )}
-                        
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setShowUserMenu(false)}
-                          className="w-full justify-start text-xs"
-                        >
-                          <Settings className="h-4 w-4 mr-2" />
-                          Settings
-                        </Button>
-                        
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            logoutMutation.mutate();
-                            setShowUserMenu(false);
-                          }}
-                          className="w-full justify-start text-xs text-red-600 hover:bg-red-50"
-                        >
-                          <LogOut className="h-4 w-4 mr-2" />
-                          Logout
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setLocation("/auth")}
-                  className="text-bakery-primary hover:bg-bakery-cream"
-                >
-                  <User className="h-4 w-4 mr-1" />
-                  Login
-                </Button>
-              )}
-            </div>
+          <div className="flex items-center justify-center">
+            <Wheat className="h-6 w-6 text-bakery-primary mr-2" />
+            <span className="text-lg font-bold text-bakery-dark">MAXWIL' Bakery</span>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Hero Section */}
       <div 
@@ -228,15 +127,119 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Contact FAB */}
-      <div className="fixed bottom-4 right-4 z-40">
-        <Button
-          size="sm"
-          className="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full shadow-lg animate-float button-press hover-lift"
-          onClick={() => window.open("https://wa.me/63", "_blank")}
-        >
-          <Phone className="h-5 w-5" />
-        </Button>
+      {/* Bottom Navigation */}
+      <div className="bg-white border-t border-gray-200 flex-shrink-0 z-50">
+        <div className="max-w-md mx-auto px-2 py-2">
+          <div className="flex items-center justify-around">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex flex-col items-center space-y-1 px-2 py-2 text-bakery-primary"
+            >
+              <Home className="h-5 w-5" />
+              <span className="text-xs font-medium">Bakery</span>
+            </Button>
+            
+            <Link href="/fastfood">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-[#f24907]"
+              >
+                <ChefHat className="h-5 w-5" />
+                <span className="text-xs font-medium">Fast Food</span>
+              </Button>
+            </Link>
+            
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsCartOpen(true)}
+              className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-bakery-primary relative"
+            >
+              <CartIcon className="h-5 w-5" />
+              <span className="text-xs font-medium">Cart</span>
+              {cartItemCount > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-xs bg-red-500 text-white rounded-full">
+                  {cartItemCount}
+                </Badge>
+              )}
+            </Button>
+
+            {user ? (
+              <div className="relative" ref={userMenuRef}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-bakery-primary"
+                >
+                  <User className="h-5 w-5" />
+                  <span className="text-xs font-medium">Profile</span>
+                </Button>
+                
+                {showUserMenu && (
+                  <div className="absolute right-0 bottom-full mb-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+                    <div className="p-2">
+                      <div className="px-3 py-2 border-b">
+                        <p className="text-sm font-medium text-gray-900">{user.username}</p>
+                        <p className="text-xs text-gray-500">Welcome back!</p>
+                      </div>
+                      
+                      {user.role === "admin" && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setLocation("/admin");
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full justify-start text-xs"
+                        >
+                          <ShieldX className="h-4 w-4 mr-2" />
+                          Admin Dashboard
+                        </Button>
+                      )}
+                      
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowUserMenu(false)}
+                        className="w-full justify-start text-xs"
+                      >
+                        <Settings className="h-4 w-4 mr-2" />
+                        Settings
+                      </Button>
+                      
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          logoutMutation.mutate();
+                          setShowUserMenu(false);
+                        }}
+                        className="w-full justify-start text-xs text-red-600 hover:bg-red-50"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setLocation("/auth")}
+                className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-bakery-primary"
+              >
+                <User className="h-5 w-5" />
+                <span className="text-xs font-medium">Login</span>
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Shopping Cart Modal */}
