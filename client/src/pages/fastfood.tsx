@@ -108,7 +108,7 @@ export default function FastFoodPage() {
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-1">
           <div className="mb-1">
-            <h3 className="text-sm font-bold text-gray-900 mb-0.5">Today's Menu</h3>
+            <h3 className="font-bold text-gray-900 mb-0.5 text-[17px] text-left pt-[2px] pb-[2px]">Today's Menu</h3>
             <p className="text-[13px] text-left text-[#e9530f] font-semibold">Delicious Filipino meals cooked fresh daily</p>
           </div>
 
