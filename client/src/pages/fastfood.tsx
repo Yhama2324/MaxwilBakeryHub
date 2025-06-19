@@ -102,7 +102,8 @@ export default function FastFoodPage() {
             <div className="flex items-center space-x-2">
               <ChefHat className="h-8 w-8 text-orange-600" />
               <div>
-                <h1 className="text-base font-bold text-gray-900">MAXWIL' Fast Food</h1>
+                <h1 className="text-base font-bold text-gray-900 text-center">MAXWIL' 
+                Fast Food</h1>
                 <p className="text-xs text-gray-600">Daily Cooked Meals</p>
               </div>
             </div>
