@@ -38,6 +38,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
+      toast({
+        title: `Welcome back, ${user.username}! 🎉`,
+        description: "You've successfully logged in to MAXWIL'",
+        className: "bg-green-50 border-green-200 text-green-800",
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -55,6 +60,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
+      toast({
+        title: `Welcome to MAXWIL', ${user.username}! 🎊`,
+        description: "Your account has been created successfully. Start exploring our delicious offerings!",
+        className: "bg-blue-50 border-blue-200 text-blue-800",
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -71,6 +81,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
+      toast({
+        title: "See you soon! 👋",
+        description: "You've been successfully logged out. Thank you for visiting MAXWIL'!",
+        className: "bg-orange-50 border-orange-200 text-orange-800",
+      });
     },
     onError: (error: Error) => {
       toast({
