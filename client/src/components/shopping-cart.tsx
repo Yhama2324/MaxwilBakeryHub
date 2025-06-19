@@ -56,7 +56,7 @@ export default function ShoppingCart({
         </SheetHeader>
 
         <div className="flex flex-col flex-1 min-h-0">
-          <div className="flex-1 overflow-y-auto py-4 min-h-0">
+          <div className="flex-1 overflow-y-auto py-4 min-h-0 scrollbar-hide">
             {items.length === 0 ? (
               <div className="text-center py-12">
                 <CartIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
@@ -66,53 +66,53 @@ export default function ShoppingCart({
             ) : (
               <div className="space-y-4">
                 {items.map((item) => (
-                  <div key={item.id} className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div key={item.id} className="flex items-center space-x-2 p-2 border rounded-lg">
                     <img
-                      src={item.imageUrl || "https://via.placeholder.com/60x60?text=No+Image"}
+                      src={item.imageUrl || "https://via.placeholder.com/40x40?text=No+Image"}
                       alt={item.name}
-                      className="w-15 h-15 object-cover rounded"
+                      className="w-10 h-10 object-cover rounded flex-shrink-0"
                       onError={(e) => {
-                        e.currentTarget.src = "https://via.placeholder.com/60x60?text=No+Image";
+                        e.currentTarget.src = "https://via.placeholder.com/40x40?text=No+Image";
                       }}
                     />
                     
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm text-bakery-dark truncate">{item.name}</h4>
-                      <p className="text-sm text-bakery-primary font-semibold">
+                      <h4 className="font-medium text-xs text-bakery-dark truncate">{item.name}</h4>
+                      <p className="text-xs text-bakery-primary font-semibold">
                         {formatPrice(item.price)}
                       </p>
                     </div>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 flex-shrink-0">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-8 h-8 p-0"
+                        className="w-6 h-6 p-0"
                         onClick={() => onUpdateQuantity(item.id, -1)}
                       >
-                        <Minus className="h-3 w-3" />
+                        <Minus className="h-2 w-2" />
                       </Button>
                       
-                      <span className="w-8 text-center text-sm font-medium">
+                      <span className="w-6 text-center text-xs font-medium">
                         {item.quantity}
                       </span>
                       
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-8 h-8 p-0"
+                        className="w-6 h-6 p-0"
                         onClick={() => onUpdateQuantity(item.id, 1)}
                       >
-                        <Plus className="h-3 w-3" />
+                        <Plus className="h-2 w-2" />
                       </Button>
                       
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-8 h-8 p-0 text-red-500 hover:text-red-700"
+                        className="w-6 h-6 p-0 text-red-500 hover:text-red-700"
                         onClick={() => onRemoveItem(item.id)}
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-2 w-2" />
                       </Button>
                     </div>
                   </div>
