@@ -102,9 +102,8 @@ export default function FastFoodPage() {
             <div className="flex items-center space-x-2">
               <ChefHat className="h-8 w-8 text-orange-600" />
               <div>
-                <h1 className="text-base font-bold text-gray-900 text-center">MAXWIL' 
-                Fast Food</h1>
-                <p className="text-xs text-gray-600 text-center">Daily Cooked Meals</p>
+                <h1 className="text-center text-[19px] font-extrabold text-[#e9530f]">Fast Food</h1>
+                <p className="text-gray-600 text-center text-[12px] font-bold">Daily Cooked Meals</p>
               </div>
             </div>
 
@@ -246,7 +245,7 @@ export default function FastFoodPage() {
       {/* Daily Specials Banner */}
       <div className="bg-orange-100 py-0.5 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-orange-700 text-xs">Fresh meals cooked every morning • Available while supplies last</p>
+          <p className="text-orange-700 text-xs mt-[12px] mb-[12px] font-bold">Fresh meals cooked every morning • Available while supplies last</p>
         </div>
       </div>
       {/* Shopping Cart Modal */}
