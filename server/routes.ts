@@ -139,7 +139,21 @@ export function registerRoutes(app: Express): Server {
         return res.status(400).json({ message: "Order must contain at least one item" });
       }
 
-      const validatedData = insertOrderSchema.parse(sanitizedData);
+      // Extract coordinates if provided
+      const { coordinates, ...orderDataWithoutCoords } = req.body;
+      const orderData = {
+        ...orderDataWithoutCoords,
+        customerName: sanitizedData.customerName,
+        customerPhone: sanitizedData.customerPhone,
+        deliveryAddress: sanitizedData.deliveryAddress,
+        paymentMethod: sanitizedData.paymentMethod,
+        totalAmount: sanitizedData.totalAmount,
+        items: sanitizedData.items,
+        deliveryLatitude: coordinates?.lat?.toString() || null,
+        deliveryLongitude: coordinates?.lng?.toString() || null
+      };
+      
+      const validatedData = insertOrderSchema.parse(orderData);
       const order = await storage.createOrder(validatedData);
       res.status(201).json(order);
     } catch (error) {

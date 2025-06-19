@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { MapPin, Navigation } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
 
 interface GoogleMapsAddressProps {
   value: string;
@@ -27,8 +28,25 @@ export default function GoogleMapsAddress({
   const inputRef = useRef<HTMLInputElement>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [apiKey, setApiKey] = useState<string>("");
 
   useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const response = await fetch('/api/config');
+        const config = await response.json();
+        setApiKey(config.GOOGLE_MAPS_API_KEY);
+      } catch (error) {
+        console.error('Failed to fetch config:', error);
+      }
+    };
+
+    fetchConfig();
+  }, []);
+
+  useEffect(() => {
+    if (!apiKey) return;
+
     const loadGoogleMapsAPI = () => {
       if (window.google && window.google.maps) {
         setIsMapLoaded(true);
@@ -37,7 +55,7 @@ export default function GoogleMapsAddress({
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`;
       script.async = true;
       script.defer = true;
 
@@ -50,7 +68,7 @@ export default function GoogleMapsAddress({
     };
 
     loadGoogleMapsAPI();
-  }, []);
+  }, [apiKey]);
 
   const initializeAutocomplete = () => {
     if (!inputRef.current || !window.google) return;

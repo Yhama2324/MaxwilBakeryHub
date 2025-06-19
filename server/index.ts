@@ -17,6 +17,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Pass environment variables to frontend
+app.get('/api/config', (req, res) => {
+  res.json({
+    GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY
+  });
+});
+
 // Rate limiting for API routes
 const rateLimitMap = new Map();
 app.use('/api', (req, res, next) => {
