@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Plus, Minus, ChefHat, Clock, Star, Cake, ShieldX } from "lucide-react";
+import { ShoppingCart, Plus, ChefHat, Clock, Star, Cake, ShieldX } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import ShoppingCartModal from "@/components/shopping-cart";
@@ -96,7 +96,7 @@ export default function FastFoodPage() {
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 flex flex-col">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
@@ -127,26 +127,26 @@ export default function FastFoodPage() {
                 <ShieldX className="h-5 w-5 mr-2" />
                 Admin
               </Button>
-            </div>
 
-            <Button 
-              onClick={() => setIsCartOpen(true)}
-              className="relative bg-orange-600 hover:bg-orange-700"
-            >
-              <ShoppingCart className="h-5 w-5 mr-2" />
-              Cart
-              {cart.length > 0 && (
-                <Badge className="absolute -top-2 -right-2 bg-red-500 text-white min-w-[20px] h-5 rounded-full text-xs flex items-center justify-center">
-                  {cart.reduce((sum, item) => sum + item.quantity, 0)}
-                </Badge>
-              )}
-            </Button>
+              <Button 
+                onClick={() => setIsCartOpen(true)}
+                className="relative bg-orange-600 hover:bg-orange-700"
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                Cart
+                {cart.length > 0 && (
+                  <Badge className="absolute -top-2 -right-2 bg-red-500 text-white min-w-[20px] h-5 rounded-full text-xs flex items-center justify-center">
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                  </Badge>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-8 flex-shrink-0">
+      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-6 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold mb-2">Fresh Daily Cooked Meals</h2>
           <p className="text-lg mb-4">Authentic Filipino dishes prepared with love every day</p>
@@ -168,86 +168,88 @@ export default function FastFoodPage() {
       </div>
 
       {/* Products Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Today's Menu</h3>
-          <p className="text-gray-600">Delicious Filipino meals cooked fresh daily</p>
-        </div>
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex-1 flex flex-col">
+          <div className="mb-4">
+            <h3 className="text-xl font-bold text-gray-900 mb-1">Today's Menu</h3>
+            <p className="text-gray-600 text-sm">Delicious Filipino meals cooked fresh daily</p>
+          </div>
 
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i} className="overflow-hidden">
-                <Skeleton className="h-48 w-full" />
-                <CardContent className="p-4">
-                  <Skeleton className="h-4 w-3/4 mb-2" />
-                  <Skeleton className="h-3 w-full mb-4" />
-                  <Skeleton className="h-8 w-20" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : fastfoodProducts.length === 0 ? (
-          <div className="text-center py-16">
-            <ChefHat className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-700 mb-2">No Fast Food Items Available</h3>
-            <p className="text-gray-500">Check back later for today's fresh meals!</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {fastfoodProducts.map((product) => (
-              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
-                <div className="relative">
-                  <img
-                    src={product.imageUrl || '/placeholder-food.jpg'}
-                    alt={product.name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <Badge 
-                    className={`absolute top-2 right-2 ${
-                      product.available 
-                        ? 'bg-green-500 text-white' 
-                        : 'bg-red-500 text-white'
-                    }`}
-                  >
-                    {product.available ? 'Available' : 'Sold Out'}
-                  </Badge>
-                </div>
-                
-                <CardContent className="p-4">
-                  <h4 className="font-semibold text-lg text-gray-900 mb-2">{product.name}</h4>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-orange-600">
-                      {formatPrice(product.price)}
-                    </span>
-                    
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => addToCart(product)}
-                        disabled={!product.available}
-                        className="border-orange-600 text-orange-600 hover:bg-orange-50"
+          <div className="flex-1 overflow-y-auto hide-scrollbar">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="overflow-hidden">
+                    <Skeleton className="h-32 w-full" />
+                    <CardContent className="p-3">
+                      <Skeleton className="h-4 w-3/4 mb-2" />
+                      <Skeleton className="h-3 w-full mb-3" />
+                      <Skeleton className="h-8 w-20" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : fastfoodProducts.length === 0 ? (
+              <div className="text-center py-16">
+                <ChefHat className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-700 mb-2">No Fast Food Items Available</h3>
+                <p className="text-gray-500">Check back later for today's fresh meals!</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+                {fastfoodProducts.map((product) => (
+                  <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                    <div className="relative">
+                      <img
+                        src={product.imageUrl || '/placeholder-food.jpg'}
+                        alt={product.name}
+                        className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <Badge 
+                        className={`absolute top-2 right-2 text-xs ${
+                          product.available 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-red-500 text-white'
+                        }`}
                       >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Add
-                      </Button>
+                        {product.available ? 'Available' : 'Sold Out'}
+                      </Badge>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    
+                    <CardContent className="p-3">
+                      <h4 className="font-semibold text-base text-gray-900 mb-1">{product.name}</h4>
+                      <p className="text-gray-600 text-xs mb-3 line-clamp-2">{product.description}</p>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-lg font-bold text-orange-600">
+                          {formatPrice(product.price)}
+                        </span>
+                        
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => addToCart(product)}
+                          disabled={!product.available}
+                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-2 py-1"
+                        >
+                          <Plus className="h-3 w-3 mr-1" />
+                          Add
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Daily Specials Banner */}
-      <div className="bg-orange-100 py-8">
+      <div className="bg-orange-100 py-3 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-xl font-bold text-orange-800 mb-2">Daily Specials</h3>
-          <p className="text-orange-700">Fresh meals cooked every morning • Available while supplies last</p>
+          <h3 className="text-base font-bold text-orange-800 mb-1">Daily Specials</h3>
+          <p className="text-orange-700 text-sm">Fresh meals cooked every morning • Available while supplies last</p>
         </div>
       </div>
 
