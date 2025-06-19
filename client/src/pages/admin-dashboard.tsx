@@ -478,7 +478,7 @@ export default function AdminDashboard() {
                             <div>
                               <h4 className="font-semibold text-gray-800">Order #{order.id}</h4>
                               <p className="text-sm text-gray-600">
-                                {new Date(order.createdAt).toLocaleDateString()} • {order.customerName}
+                                {formatDateTime(order.createdAt)} • {order.customerName}
                               </p>
                             </div>
                             <Badge className="bg-red-100 text-red-800 border-red-300">
