@@ -10,7 +10,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Product, Order } from "@shared/schema";
 import ProductModal from "@/components/product-modal";
 import MapComponent from "@/components/map-component";
-import LeafletDeliveryMap from "@/components/leaflet-delivery-map";
+import SimpleDeliveryMap from "@/components/simple-delivery-map";
 import { 
   Package, 
   ShoppingBag, 
@@ -380,7 +380,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="map">
-            <LeafletDeliveryMap 
+            <SimpleDeliveryMap 
               orders={orders.filter(order => order.status !== "cancelled")} 
               onStatusUpdate={handleUpdateOrderStatus}
             />

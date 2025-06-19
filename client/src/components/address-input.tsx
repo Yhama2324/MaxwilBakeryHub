@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MapPin, Navigation, Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { MapPin, Loader2 } from "lucide-react";
 
 interface AddressInputProps {
   value: string;
@@ -16,19 +15,13 @@ export default function AddressInput({
   value,
   onChange,
   label = "Delivery Address",
-  placeholder = "Enter your delivery address"
+  placeholder = "Enter your complete delivery address"
 }: AddressInputProps) {
   const [isGettingLocation, setIsGettingLocation] = useState(false);
-  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
-  const { toast } = useToast();
 
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
-      toast({
-        title: "Location not available",
-        description: "Your browser doesn't support location services",
-        variant: "destructive"
-      });
+      alert("Geolocation is not supported by this browser.");
       return;
     }
 
@@ -36,64 +29,48 @@ export default function AddressInput({
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        const coords = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        setCoordinates(coords);
-
+        const { latitude, longitude } = position.coords;
+        
         try {
-          // Use OpenStreetMap's Nominatim service for reverse geocoding (free)
+          // Use reverse geocoding with a free service
           const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lng}&zoom=18&addressdetails=1`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`
           );
           
           if (response.ok) {
             const data = await response.json();
-            const address = data.display_name || `${coords.lat}, ${coords.lng}`;
-            onChange(address, coords);
-            
-            toast({
-              title: "Location found",
-              description: "Your current location has been detected",
-              variant: "default"
-            });
+            const address = data.display_name || `${latitude}, ${longitude}`;
+            onChange(address, { lat: latitude, lng: longitude });
           } else {
-            onChange(`${coords.lat}, ${coords.lng}`, coords);
+            // Fallback to coordinates
+            const address = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+            onChange(address, { lat: latitude, lng: longitude });
           }
         } catch (error) {
           // Fallback to coordinates if reverse geocoding fails
-          onChange(`${coords.lat}, ${coords.lng}`, coords);
-          toast({
-            title: "Location detected",
-            description: "Using your GPS coordinates",
-            variant: "default"
-          });
+          const address = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+          onChange(address, { lat: latitude, lng: longitude });
+        } finally {
+          setIsGettingLocation(false);
         }
-
-        setIsGettingLocation(false);
       },
       (error) => {
         setIsGettingLocation(false);
-        let message = "Unable to get your location";
+        let errorMessage = "Unable to get your location.";
         
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            message = "Location access denied. Please enable location services.";
+            errorMessage = "Location access denied. Please enter your address manually.";
             break;
           case error.POSITION_UNAVAILABLE:
-            message = "Location information unavailable.";
+            errorMessage = "Location information unavailable. Please enter your address manually.";
             break;
           case error.TIMEOUT:
-            message = "Location request timed out.";
+            errorMessage = "Location request timed out. Please enter your address manually.";
             break;
         }
-
-        toast({
-          title: "Location error",
-          description: message,
-          variant: "destructive"
-        });
+        
+        alert(errorMessage);
       },
       {
         enableHighAccuracy: true,
@@ -105,48 +82,32 @@ export default function AddressInput({
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="delivery-address" className="flex items-center space-x-2">
-        <MapPin className="h-4 w-4" />
-        <span>{label}</span>
-      </Label>
-      
-      <div className="space-y-2">
-        <div className="flex space-x-2">
-          <Textarea
-            id="delivery-address"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder}
-            className="flex-1"
-            rows={3}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={getCurrentLocation}
-            disabled={isGettingLocation}
-            className="px-3 h-auto self-start"
-            title="Use current location"
-          >
-            {isGettingLocation ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Navigation className="h-4 w-4" />
-            )}
-          </Button>
-        </div>
-        
-        {coordinates && (
-          <div className="text-xs text-green-600 flex items-center space-x-1">
-            <MapPin className="h-3 w-3" />
-            <span>GPS location: {coordinates.lat.toFixed(6)}, {coordinates.lng.toFixed(6)}</span>
-          </div>
-        )}
+      <Label htmlFor="address">{label}</Label>
+      <div className="flex space-x-2">
+        <Input
+          id="address"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="flex-1"
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={getCurrentLocation}
+          disabled={isGettingLocation}
+          title="Use current location"
+        >
+          {isGettingLocation ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <MapPin className="h-4 w-4" />
+          )}
+        </Button>
       </div>
-      
       <p className="text-xs text-gray-500">
-        Include street, barangay, city, and landmarks for accurate delivery
+        Click the location button to automatically get your current address, or type it manually.
       </p>
     </div>
   );
