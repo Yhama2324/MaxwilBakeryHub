@@ -3,8 +3,47 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+// Security middleware
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+
+// Security headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
+// Rate limiting for API routes
+const rateLimitMap = new Map();
+app.use('/api', (req, res, next) => {
+  const ip = req.ip;
+  const now = Date.now();
+  const windowMs = 15 * 60 * 1000; // 15 minutes
+  const maxRequests = 100;
+
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+    return next();
+  }
+
+  const userData = rateLimitMap.get(ip);
+  if (now > userData.resetTime) {
+    userData.count = 1;
+    userData.resetTime = now + windowMs;
+    return next();
+  }
+
+  if (userData.count >= maxRequests) {
+    return res.status(429).json({ message: "Too many requests" });
+  }
+
+  userData.count++;
+  next();
+});
 
 app.use((req, res, next) => {
   const start = Date.now();

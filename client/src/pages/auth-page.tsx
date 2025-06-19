@@ -55,6 +55,16 @@ export default function AuthPage() {
       return;
     }
 
+    // For admin login, validate security code format
+    if (loginForm.username === "admin" && loginForm.securityCode !== "BAKERY123") {
+      toast({
+        title: "Invalid Security Code",
+        description: "Please enter the correct security code",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       await loginMutation.mutateAsync({
         username: loginForm.username,

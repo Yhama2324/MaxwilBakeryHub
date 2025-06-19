@@ -146,7 +146,7 @@ export default function HomePage() {
       </div>
 
       {/* Product Grid */}
-      <div className="max-w-md mx-auto px-4 pb-20">
+      <div className="max-w-md mx-auto px-4 pb-4">
         <h2 className="text-xl font-bold text-bakery-dark mb-4">Our Fresh Products</h2>
         <ProductGrid 
           products={filteredProducts}
@@ -154,6 +154,59 @@ export default function HomePage() {
           onAddToCart={addToCart}
         />
       </div>
+
+      {/* Footer */}
+      <footer className="bg-bakery-dark text-white mt-12">
+        <div className="max-w-md mx-auto px-4 py-8">
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <Wheat className="h-8 w-8 text-bakery-primary" />
+              <span className="text-2xl font-bold">MAXWIL'</span>
+            </div>
+            <p className="text-gray-300 text-sm">
+              Fresh baked goods delivered with love since 2024
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 text-center text-sm">
+            <div>
+              <h4 className="font-semibold text-bakery-primary mb-2">Contact Us</h4>
+              <div className="space-y-1 text-gray-300">
+                <p className="flex items-center justify-center space-x-2">
+                  <Phone className="h-4 w-4" />
+                  <span>+63 XXX XXX XXXX</span>
+                </p>
+                <p className="flex items-center justify-center space-x-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>Your Neighborhood Bakery</span>
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-bakery-primary mb-2">Operating Hours</h4>
+              <div className="space-y-1 text-gray-300 text-xs">
+                <p>Monday - Saturday: 6:00 AM - 8:00 PM</p>
+                <p>Sunday: 7:00 AM - 6:00 PM</p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-bakery-primary mb-2">Payment Methods</h4>
+              <div className="flex justify-center space-x-4 text-gray-300">
+                <span>💵 Cash</span>
+                <span>📱 GCash</span>
+                <span>🏦 Bank</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-600 mt-6 pt-4 text-center text-xs text-gray-400">
+            <p>&copy; 2024 MAXWIL' Bakery. All rights reserved.</p>
+            <p className="mt-1">Made with ❤️ for fresh bread lovers</p>
+          </div>
+        </div>
+      </footer>
 
       {/* Contact FAB */}
       <div className="fixed bottom-6 right-6 z-40">

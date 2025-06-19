@@ -36,36 +36,139 @@ export default function MapComponent({ orders }: MapComponentProps) {
 
   return (
     <div className="space-y-4">
-      {/* Map Placeholder */}
+      {/* Interactive Map Simulation */}
       <Card>
         <CardContent className="p-6">
-          <div className="bg-gray-100 rounded-lg h-64 flex items-center justify-center relative">
-            <div className="text-center text-gray-500">
-              <MapPin className="h-16 w-16 mx-auto mb-4 text-bakery-primary" />
-              <h3 className="text-lg font-medium text-bakery-dark mb-2">Delivery Map</h3>
-              <p className="text-sm">Interactive map integration would display here</p>
-              <p className="text-xs mt-2">
-                Showing delivery locations and routes for order tracking
-              </p>
-            </div>
-            
-            {/* Simulated map pins */}
-            <div className="absolute top-4 left-4 bg-bakery-primary text-white p-2 rounded-full shadow-lg">
-              <Store className="h-4 w-4" />
-            </div>
-            
-            {orders.slice(0, 3).map((order, index) => (
-              <div
-                key={order.id}
-                className="absolute bg-red-500 text-white p-1 rounded-full shadow-lg text-xs"
-                style={{
-                  top: `${20 + index * 15}%`,
-                  left: `${30 + index * 20}%`,
-                }}
-              >
-                {order.id}
+          <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg h-80 relative overflow-hidden border-2 border-gray-200">
+            {/* Background Grid Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="grid grid-cols-8 grid-rows-6 h-full w-full">
+                {Array.from({ length: 48 }).map((_, i) => (
+                  <div key={i} className="border border-gray-300"></div>
+                ))}
               </div>
-            ))}
+            </div>
+            
+            {/* Bakery Location */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="relative">
+                <div className="bg-bakery-primary text-white p-3 rounded-full shadow-lg animate-pulse-soft">
+                  <Store className="h-6 w-6" />
+                </div>
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded text-xs font-medium border shadow-sm">
+                  MAXWIL' Bakery
+                </div>
+                {/* Pulse rings */}
+                <div className="absolute inset-0 bg-bakery-primary rounded-full animate-ping opacity-20"></div>
+                <div className="absolute inset-2 bg-bakery-primary rounded-full animate-ping opacity-10 animation-delay-300"></div>
+              </div>
+            </div>
+
+            {/* Customer Delivery Points */}
+            {orders.slice(0, 6).map((order, index) => {
+              const positions = [
+                { top: '20%', left: '25%' },
+                { top: '75%', left: '20%' },
+                { top: '30%', left: '75%' },
+                { top: '80%', left: '70%' },
+                { top: '15%', left: '60%' },
+                { top: '65%', left: '45%' }
+              ];
+              
+              const statusColors = {
+                pending: 'bg-yellow-500',
+                accepted: 'bg-blue-500',
+                preparing: 'bg-orange-500',
+                delivered: 'bg-green-500',
+                cancelled: 'bg-red-500'
+              };
+
+              const position = positions[index] || { top: '50%', left: '50%' };
+              
+              return (
+                <div
+                  key={order.id}
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2 animate-fade-in"
+                  style={{ top: position.top, left: position.left }}
+                >
+                  <div className="relative group">
+                    <div className={`${statusColors[order.status as keyof typeof statusColors]} text-white p-2 rounded-full shadow-lg cursor-pointer hover:scale-110 transition-transform`}>
+                      <MapPin className="h-4 w-4" />
+                    </div>
+                    
+                    {/* Delivery Route Line */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ 
+                      width: '200px', 
+                      height: '200px',
+                      top: '-100px',
+                      left: '-100px'
+                    }}>
+                      <defs>
+                        <pattern id="dash" patternUnits="userSpaceOnUse" width="8" height="8">
+                          <path d="M0,4 l8,0" stroke="#10b981" strokeWidth="2" strokeDasharray="4,4" />
+                        </pattern>
+                      </defs>
+                      {order.status !== 'cancelled' && (
+                        <line 
+                          x1="100" 
+                          y1="100" 
+                          x2={window.innerWidth > 768 ? "150" : "120"} 
+                          y2={window.innerWidth > 768 ? "150" : "120"}
+                          stroke="url(#dash)" 
+                          strokeWidth="2" 
+                          opacity="0.6"
+                        />
+                      )}
+                    </svg>
+                    
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <div className="bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+                        Order #{order.id} - {order.status}
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-black"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Map Controls */}
+            <div className="absolute top-4 right-4 space-y-2">
+              <div className="bg-white rounded-lg shadow p-2 text-center">
+                <div className="text-xs font-medium text-gray-600">Live Orders</div>
+                <div className="text-lg font-bold text-bakery-primary">{orders.length}</div>
+              </div>
+              <div className="bg-white rounded-lg shadow p-2 text-center">
+                <div className="text-xs font-medium text-gray-600">Active Deliveries</div>
+                <div className="text-lg font-bold text-green-600">
+                  {orders.filter(o => o.status === 'preparing').length}
+                </div>
+              </div>
+            </div>
+
+            {/* Map Legend */}
+            <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow p-3 text-xs">
+              <div className="font-medium text-gray-700 mb-2">Status Legend</div>
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <span>Pending</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                  <span>Accepted</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                  <span>Preparing</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span>Delivered</span>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
