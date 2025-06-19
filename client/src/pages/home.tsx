@@ -98,7 +98,7 @@ export default function HomePage() {
               </Button>
 
               {user ? (
-                <div className="relative">
+                <div className="relative" ref={userMenuRef}>
                   <Button
                     variant="ghost"
                     size="sm"
