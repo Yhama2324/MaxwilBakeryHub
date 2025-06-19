@@ -39,8 +39,6 @@ export default function ProductModal({
     available: true
   });
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
   useEffect(() => {
     if (product) {
       setFormData({
@@ -51,7 +49,6 @@ export default function ProductModal({
         imageUrl: product.imageUrl || "",
         available: product.available
       });
-      setSelectedFile(null);
     } else {
       setFormData({
         name: "",
@@ -61,9 +58,8 @@ export default function ProductModal({
         imageUrl: "",
         available: true
       });
-      setSelectedFile(null);
     }
-  }, [product, isOpen]);
+  }, [product, isOpen, defaultCategory]);
 
   const saveMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -96,7 +92,6 @@ export default function ProductModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form data
     if (!formData.name.trim()) {
       toast({
         title: "Missing Information",
@@ -136,23 +131,6 @@ export default function ProductModal({
     };
 
     saveMutation.mutate(sanitizedData);
-  };
-
-  const handleFileUpload = (file: File) => {
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast({
-        title: "File too large",
-        description: "Please select an image smaller than 5MB",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    // Create preview URL
-    const previewUrl = URL.createObjectURL(file);
-    setSelectedFile(file);
-    setFormData(prev => ({ ...prev, imageUrl: previewUrl }));
   };
 
   const categories = [
@@ -213,11 +191,11 @@ export default function ProductModal({
             <Input
               id="product-price"
               type="number"
+              step="0.01"
+              min="0"
               placeholder="0.00"
               value={formData.price}
               onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
-              step="0.01"
-              min="0"
               required
             />
           </div>
@@ -244,26 +222,19 @@ export default function ProductModal({
           <div>
             <Label htmlFor="product-image" className="flex items-center space-x-1">
               <Upload className="h-4 w-4" />
-              <span>Product Image</span>
+              <span>Product Image URL</span>
             </Label>
-            <div className="mt-2">
-              <Input
-                id="product-image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    handleFileUpload(file);
-                  }
-                }}
-                className="cursor-pointer"
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Browse your computer to select an image (JPG, PNG, GIF, etc.)
-              </p>
-            </div>
-            {(formData.imageUrl || selectedFile) && (
+            <Input
+              id="product-image"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              value={formData.imageUrl}
+              onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Enter a direct URL to an image (JPG, PNG, etc.)
+            </p>
+            {formData.imageUrl && (
               <div className="mt-2">
                 <img
                   src={formData.imageUrl}
@@ -303,7 +274,7 @@ export default function ProductModal({
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  {isEdit ? "Update Product" : "Create Product"}
+                  {isEdit ? "Update Product" : "Add Product"}
                 </>
               )}
             </Button>
