@@ -298,7 +298,7 @@ export default function AdminDashboard() {
                       onClick={() => setProductCategoryFilter("bakery")}
                       className="h-6 px-2 text-xs text-bakery-primary border-bakery-primary hover:bg-bakery-cream"
                     >
-                      Bakery ({products.filter(p => p.category === "bakery").length})
+                      Bakery ({products.filter(p => ["bread", "pastries", "cakes", "cookies"].includes(p.category)).length})
                     </Button>
                     <Button 
                       variant={productCategoryFilter === "fastfood" ? "default" : "outline"}
@@ -316,14 +316,26 @@ export default function AdminDashboard() {
                   <div className="text-center py-4 text-sm">Loading products...</div>
                 ) : products.length === 0 ? (
                   <div className="text-center py-4 text-gray-500 text-sm">No products found</div>
-                ) : products.filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter).length === 0 ? (
+                ) : products.filter(product => {
+                  if (productCategoryFilter === "all") return true;
+                  if (productCategoryFilter === "bakery") {
+                    return ["bread", "pastries", "cakes", "cookies"].includes(product.category);
+                  }
+                  return product.category === productCategoryFilter;
+                }).length === 0 ? (
                   <div className="text-center py-4 text-gray-500 text-sm">
                     No {productCategoryFilter === "bakery" ? "bakery" : productCategoryFilter === "fastfood" ? "fast food" : ""} products found
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {products
-                      .filter(product => productCategoryFilter === "all" || product.category === productCategoryFilter)
+                      .filter(product => {
+                        if (productCategoryFilter === "all") return true;
+                        if (productCategoryFilter === "bakery") {
+                          return ["bread", "pastries", "cakes", "cookies"].includes(product.category);
+                        }
+                        return product.category === productCategoryFilter;
+                      })
                       .map((product) => (
                       <div key={product.id} className="rounded-lg p-3 bg-[#f0eee6f2] mt-[16px] mb-[16px]">
                         <div className="flex items-start justify-between gap-3">
