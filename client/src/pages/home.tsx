@@ -36,6 +36,15 @@ export default function HomePage() {
     ? products.filter(product => product.category !== "fastfood")
     : products.filter(product => product.category === selectedCategory);
 
+  // Map cart items to the format expected by components
+  const cartItems = cart.map(item => ({
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+    imageUrl: item.imageUrl
+  }));
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
@@ -219,7 +228,7 @@ export default function HomePage() {
         items={cartItems}
         total={cartTotal}
         onOrderComplete={() => {
-          setCartItems([]);
+          clearCart();
           setIsCheckoutOpen(false);
         }}
       />
