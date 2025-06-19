@@ -84,7 +84,6 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-1 flex-shrink-0 pt-[3px] pb-[3px] mt-[8px] mb-[8px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-[-6px] pb-[-6px] mt-[12px] mb-[12px]">
@@ -105,13 +104,12 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Products Grid */}
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-1">
           <div className="mb-1">
             <h3 className="text-sm font-bold text-gray-900 mb-0.5">Today's Menu</h3>
-            <p className="text-gray-600 text-xs">Delicious Filipino meals cooked fresh daily</p>
+            <p className="text-[13px] text-left text-[#e9530f] font-semibold">Delicious Filipino meals cooked fresh daily</p>
           </div>
 
           <div className="pb-1">
@@ -182,7 +180,6 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Bottom Navigation */}
       <div className="bg-white border-t border-gray-200 flex-shrink-0 z-50">
         <div className="max-w-md mx-auto px-2 py-2">
@@ -297,7 +294,6 @@ export default function FastFoodPage() {
           </div>
         </div>
       </div>
-
       {/* Shopping Cart Modal */}
       <ShoppingCartModal
         isOpen={isCartOpen}
@@ -311,7 +307,6 @@ export default function FastFoodPage() {
         }}
         total={cartTotal}
       />
-
       {/* Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
