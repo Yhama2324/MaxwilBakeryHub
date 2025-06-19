@@ -97,7 +97,7 @@ export default function FastFoodPage() {
     <div className="h-screen bg-gradient-to-br from-orange-50 to-red-50 flex flex-col overflow-hidden">
       {/* Header */}
       <div className="bg-white shadow-sm border-b flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[-7px] pb-[-7px] mt-[14px] mb-[14px]">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center space-x-2">
               <ChefHat className="h-8 w-8 text-orange-600" />
