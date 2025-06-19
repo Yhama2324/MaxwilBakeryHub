@@ -120,6 +120,14 @@ export class MemStorage implements IStorage {
     return user;
   }
 
+  async updateUserPassword(id: number, hashedPassword: string): Promise<void> {
+    const user = this.users.get(id);
+    if (user) {
+      user.password = hashedPassword;
+      this.users.set(id, user);
+    }
+  }
+
   async getAllProducts(): Promise<Product[]> {
     return Array.from(this.products.values()).filter(product => product.available);
   }

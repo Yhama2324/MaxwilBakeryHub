@@ -193,11 +193,10 @@ export default function AuthPage() {
                     </Button>
                   </form>
 
-                  <div className="mt-4 p-3 bg-blue-50 rounded-lg text-sm">
-                    <p className="font-medium text-blue-800">Admin Login:</p>
-                    <p className="text-blue-600">Username: admin</p>
-                    <p className="text-blue-600">Password: maxwil2024</p>
-                    <p className="text-blue-600">Security Code: BAKERY123</p>
+                  <div className="mt-4 p-3 bg-amber-50 rounded-lg text-sm">
+                    <p className="font-medium text-amber-800">Admin Access:</p>
+                    <p className="text-amber-600">Contact bakery owner for admin credentials</p>
+                    <p className="text-amber-600">Security code required for admin registration</p>
                   </div>
                 </CardContent>
               </Card>

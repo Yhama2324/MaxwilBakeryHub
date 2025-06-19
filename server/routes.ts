@@ -94,7 +94,52 @@ export function registerRoutes(app: Express): Server {
 
   app.post("/api/orders", async (req, res) => {
     try {
-      const validatedData = insertOrderSchema.parse(req.body);
+      // Sanitize and validate order data
+      const {
+        customerName,
+        customerPhone,
+        deliveryAddress,
+        paymentMethod,
+        totalAmount,
+        items
+      } = req.body;
+
+      // Input sanitization
+      const sanitizedData = {
+        customerName: customerName?.trim().slice(0, 100),
+        customerPhone: customerPhone?.replace(/[^\d+\s()-]/g, '').trim(),
+        deliveryAddress: deliveryAddress?.trim().slice(0, 500),
+        paymentMethod: ["cod", "gcash", "bank"].includes(paymentMethod) ? paymentMethod : "cod",
+        totalAmount: Math.max(0, parseFloat(totalAmount) || 0).toFixed(2),
+        items: typeof items === 'string' ? items : JSON.stringify(items || [])
+      };
+
+      // Validate required fields
+      if (!sanitizedData.customerName || sanitizedData.customerName.length < 2) {
+        return res.status(400).json({ message: "Valid customer name is required" });
+      }
+
+      if (!sanitizedData.customerPhone || sanitizedData.customerPhone.length < 10) {
+        return res.status(400).json({ message: "Valid phone number is required" });
+      }
+
+      if (!sanitizedData.deliveryAddress || sanitizedData.deliveryAddress.length < 10) {
+        return res.status(400).json({ message: "Complete delivery address is required" });
+      }
+
+      // Validate items and total amount
+      let parsedItems = [];
+      try {
+        parsedItems = JSON.parse(sanitizedData.items);
+      } catch {
+        return res.status(400).json({ message: "Invalid order items" });
+      }
+
+      if (!Array.isArray(parsedItems) || parsedItems.length === 0) {
+        return res.status(400).json({ message: "Order must contain at least one item" });
+      }
+
+      const validatedData = insertOrderSchema.parse(sanitizedData);
       const order = await storage.createOrder(validatedData);
       res.status(201).json(order);
     } catch (error) {

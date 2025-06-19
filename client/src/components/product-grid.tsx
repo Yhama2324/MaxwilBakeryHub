@@ -66,7 +66,7 @@ export default function ProductGrid({ products, isLoading, onAddToCart }: Produc
       {products.map((product) => (
         <Card 
           key={product.id} 
-          className="overflow-hidden hover:shadow-md transition-shadow duration-200 animate-fade-in"
+          className="overflow-hidden hover:shadow-md transition-all duration-300 animate-fade-in hover-lift"
         >
           <div className="flex">
             <img
@@ -99,9 +99,9 @@ export default function ProductGrid({ products, isLoading, onAddToCart }: Produc
                   size="sm"
                   onClick={() => handleAddToCart(product)}
                   disabled={addingToCart === product.id || !product.available}
-                  className={`transition-all duration-200 transform hover:scale-105 active:scale-95 ${
+                  className={`button-press hover-lift transition-all duration-200 transform hover:scale-105 active:scale-95 ${
                     addingToCart === product.id 
-                      ? "bg-green-500 hover:bg-green-600" 
+                      ? "bg-green-500 hover:bg-green-600 animate-scale-in" 
                       : "bg-bakery-primary hover:bg-bakery-secondary"
                   }`}
                 >

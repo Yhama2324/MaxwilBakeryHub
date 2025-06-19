@@ -81,12 +81,12 @@ export default function HomePage() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="relative p-2"
+                className="relative p-2 button-press hover-lift"
                 onClick={() => setIsCartOpen(true)}
               >
                 <CartIcon className="h-6 w-6" />
                 {cartItemCount > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600">
+                  <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 animate-scale-in">
                     {cartItemCount}
                   </Badge>
                 )}
@@ -131,9 +131,9 @@ export default function HomePage() {
             <Button
               key={category.id}
               variant={selectedCategory === category.id ? "default" : "outline"}
-              className={`p-4 h-auto flex-col space-y-2 transition-all duration-200 transform hover:scale-105 ${
+              className={`p-4 h-auto flex-col space-y-2 transition-all duration-200 transform hover:scale-105 button-press hover-lift ${
                 selectedCategory === category.id 
-                  ? "bg-bakery-primary hover:bg-bakery-secondary border-bakery-primary" 
+                  ? "bg-bakery-primary hover:bg-bakery-secondary border-bakery-primary animate-scale-in" 
                   : "border-2 hover:border-bakery-primary"
               }`}
               onClick={() => setSelectedCategory(category.id)}
@@ -159,7 +159,7 @@ export default function HomePage() {
       <div className="fixed bottom-6 right-6 z-40">
         <Button
           size="lg"
-          className="bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-lg animate-pulse-soft"
+          className="bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-lg animate-float button-press hover-lift"
           onClick={() => window.open("https://wa.me/63", "_blank")}
         >
           <Phone className="h-6 w-6" />
