@@ -9,7 +9,8 @@ import { Product } from "@shared/schema";
 import ProductGrid from "@/components/product-grid";
 import ShoppingCart from "@/components/shopping-cart";
 import CheckoutModal from "@/components/checkout-modal";
-import { ShoppingCart as CartIcon, ShieldX, Wheat, MapPin, Phone } from "lucide-react";
+import { ShoppingCart as CartIcon, ShieldX, Wheat, MapPin, Phone, ChefHat } from "lucide-react";
+import { Link } from "wouter";
 
 export default function HomePage() {
   const [, setLocation] = useLocation();
@@ -78,6 +79,16 @@ export default function HomePage() {
               <span className="text-xl font-bold text-bakery-dark">MAXWIL'</span>
             </div>
             <div className="flex items-center space-x-4">
+              <Link href="/fastfood">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="button-press hover-lift"
+                >
+                  <ChefHat className="h-5 w-5 mr-2" />
+                  Fast Food
+                </Button>
+              </Link>
               <Button
                 variant="ghost"
                 size="sm"

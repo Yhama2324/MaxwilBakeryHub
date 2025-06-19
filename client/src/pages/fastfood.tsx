@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ShoppingCart, Plus, Minus, ChefHat, Clock, Star } from "lucide-react";
+import { Link } from "wouter";
+import { ShoppingCart, Plus, Minus, ChefHat, Clock, Star, Cake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import ShoppingCart as ShoppingCartModal from "@/components/shopping-cart";
+import ShoppingCartModal from "@/components/shopping-cart";
 import CheckoutModal from "@/components/checkout-modal";
 import { useToast } from "@/hooks/use-toast";
 import type { Product } from "@shared/schema";
@@ -101,6 +102,19 @@ export default function FastFoodPage() {
                 <h1 className="text-2xl font-bold text-gray-900">MAXWIL' Fast Food</h1>
                 <p className="text-sm text-gray-600">Daily Cooked Meals & Filipino Favorites</p>
               </div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <Link href="/">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-orange-600 hover:bg-orange-50"
+                >
+                  <Cake className="h-5 w-5 mr-2" />
+                  Bakery
+                </Button>
+              </Link>
             </div>
 
             <Button 
