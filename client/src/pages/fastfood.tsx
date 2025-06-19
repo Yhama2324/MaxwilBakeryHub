@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
-import { ShoppingCart, Plus, Minus, ChefHat, Clock, Star, Cake } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { ShoppingCart, Plus, Minus, ChefHat, Clock, Star, Cake, ShieldX } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,8 @@ export default function FastFoodPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const { toast } = useToast();
 
   const { data: products = [], isLoading } = useQuery<Product[]>({
@@ -91,7 +94,7 @@ export default function FastFoodPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 flex flex-col">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,6 +118,15 @@ export default function FastFoodPage() {
                   Bakery
                 </Button>
               </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => user?.role === "admin" ? setLocation("/admin") : setLocation("/auth")}
+                className="text-orange-600 hover:bg-orange-50"
+              >
+                <ShieldX className="h-5 w-5 mr-2" />
+                Admin
+              </Button>
             </div>
 
             <Button 
@@ -134,21 +146,21 @@ export default function FastFoodPage() {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-16">
+      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-8 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">Fresh Daily Cooked Meals</h2>
-          <p className="text-xl mb-6">Authentic Filipino dishes prepared with love every day</p>
-          <div className="flex items-center justify-center space-x-6 text-orange-100">
+          <h2 className="text-2xl font-bold mb-2">Fresh Daily Cooked Meals</h2>
+          <p className="text-lg mb-4">Authentic Filipino dishes prepared with love every day</p>
+          <div className="flex items-center justify-center space-x-6 text-orange-100 text-sm">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5" />
+              <Clock className="h-4 w-4" />
               <span>Fresh Daily</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Star className="h-5 w-5" />
+              <Star className="h-4 w-4" />
               <span>Authentic Taste</span>
             </div>
             <div className="flex items-center space-x-2">
-              <ChefHat className="h-5 w-5" />
+              <ChefHat className="h-4 w-4" />
               <span>Home-Style Cooking</span>
             </div>
           </div>
