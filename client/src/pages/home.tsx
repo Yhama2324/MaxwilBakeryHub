@@ -65,14 +65,13 @@ export default function HomePage() {
     <div className="h-screen bg-gray-50 flex flex-col overflow-hidden scrollbar-hide">
       {/* Top Header */}
       <div className="bg-white shadow-sm flex-shrink-0 z-50">
-        <div className="max-w-md mx-auto px-4 py-2">
+        <div className="max-w-md mx-auto px-4 py-2 pt-[11px] pb-[11px]">
           <div className="flex items-center justify-center">
             <Wheat className="h-6 w-6 text-bakery-primary mr-2" />
             <span className="text-lg font-bold text-bakery-dark">MAXWIL' Bakery</span>
           </div>
         </div>
       </div>
-
       {/* Hero Section */}
       <div 
         className="relative h-32 bg-cover bg-center flex-shrink-0"
@@ -93,7 +92,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Category Filter */}
       <div className="max-w-md mx-auto px-4 py-2 flex-shrink-0">
         <div className="grid grid-cols-4 gap-2">
@@ -114,7 +112,6 @@ export default function HomePage() {
           ))}
         </div>
       </div>
-
       {/* Product Grid */}
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         <div className="max-w-md mx-auto px-4 pb-2">
@@ -126,7 +123,6 @@ export default function HomePage() {
           />
         </div>
       </div>
-
       {/* Bottom Navigation */}
       <div className="bg-white border-t border-gray-200 flex-shrink-0 z-50">
         <div className="max-w-md mx-auto px-2 py-2">
@@ -241,7 +237,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Shopping Cart Modal */}
       <ShoppingCart
         isOpen={isCartOpen}
@@ -255,7 +250,6 @@ export default function HomePage() {
         }}
         total={cartTotal}
       />
-
       {/* Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
