@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { CreditCard, Phone, MapPin, CheckCircle } from "lucide-react";
+import GoogleMapsAddress from "./google-maps-address";
 
 interface CartItem {
   id: number;
@@ -39,7 +40,8 @@ export default function CheckoutModal({
     customerName: "",
     customerPhone: "",
     deliveryAddress: "",
-    paymentMethod: "cod"
+    paymentMethod: "cod",
+    coordinates: null as { lat: number; lng: number } | null
   });
 
   const orderMutation = useMutation({
@@ -120,7 +122,8 @@ export default function CheckoutModal({
         customerName: "",
         customerPhone: "",
         deliveryAddress: "",
-        paymentMethod: "cod"
+        paymentMethod: "cod",
+        coordinates: null
       });
     }
     onClose();
@@ -237,17 +240,17 @@ export default function CheckoutModal({
             </div>
 
             <div>
-              <Label htmlFor="delivery-address" className="flex items-center space-x-1">
-                <MapPin className="h-4 w-4" />
-                <span>Delivery Address *</span>
-              </Label>
-              <Textarea
-                id="delivery-address"
-                placeholder="Enter your complete delivery address"
+              <GoogleMapsAddress
                 value={formData.deliveryAddress}
-                onChange={(e) => setFormData(prev => ({ ...prev, deliveryAddress: e.target.value }))}
-                rows={3}
-                required
+                onChange={(address, coordinates) => {
+                  setFormData(prev => ({ 
+                    ...prev, 
+                    deliveryAddress: address,
+                    coordinates: coordinates || null
+                  }));
+                }}
+                label="Delivery Address *"
+                placeholder="Enter your complete delivery address"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Please include street, barangay, city, and landmarks
