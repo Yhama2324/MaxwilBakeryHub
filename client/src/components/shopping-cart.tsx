@@ -39,8 +39,8 @@ export default function ShoppingCart({
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="w-full sm:max-w-md">
-        <SheetHeader>
+      <SheetContent className="w-full sm:max-w-md flex flex-col h-full">
+        <SheetHeader className="flex-shrink-0">
           <SheetTitle className="flex items-center space-x-2">
             <CartIcon className="h-5 w-5" />
             <span>Shopping Cart</span>
@@ -55,8 +55,8 @@ export default function ShoppingCart({
           </SheetDescription>
         </SheetHeader>
 
-        <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto py-4">
+        <div className="flex flex-col flex-1 min-h-0">
+          <div className="flex-1 overflow-y-auto py-4 min-h-0">
             {items.length === 0 ? (
               <div className="text-center py-12">
                 <CartIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
@@ -122,7 +122,7 @@ export default function ShoppingCart({
           </div>
 
           {items.length > 0 && (
-            <div className="border-t pt-4 space-y-4">
+            <div className="flex-shrink-0 border-t pt-4 pb-2 space-y-4">
               <Separator />
               
               <div className="flex items-center justify-between text-lg font-semibold">
