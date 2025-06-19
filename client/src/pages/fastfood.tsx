@@ -94,27 +94,27 @@ export default function FastFoodPage() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 flex flex-col">
+    <div className="min-h-screen max-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex flex-col">
       {/* Header */}
       <div className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14">
             <div className="flex items-center space-x-3">
-              <ChefHat className="h-8 w-8 text-orange-600" />
+              <ChefHat className="h-6 w-6 text-orange-600" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">MAXWIL' Fast Food</h1>
-                <p className="text-sm text-gray-600">Daily Cooked Meals & Filipino Favorites</p>
+                <h1 className="text-lg font-bold text-gray-900">MAXWIL' Fast Food</h1>
+                <p className="text-xs text-gray-600">Daily Cooked Meals & Filipino Favorites</p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Link href="/">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-orange-600 hover:bg-orange-50"
+                  className="text-orange-600 hover:bg-orange-50 text-xs px-2"
                 >
-                  <Cake className="h-5 w-5 mr-2" />
+                  <Cake className="h-4 w-4 mr-1" />
                   Bakery
                 </Button>
               </Link>
@@ -122,20 +122,21 @@ export default function FastFoodPage() {
                 variant="ghost"
                 size="sm"
                 onClick={() => user?.role === "admin" ? setLocation("/admin") : setLocation("/auth")}
-                className="text-orange-600 hover:bg-orange-50"
+                className="text-orange-600 hover:bg-orange-50 text-xs px-2"
               >
-                <ShieldX className="h-5 w-5 mr-2" />
+                <ShieldX className="h-4 w-4 mr-1" />
                 Admin
               </Button>
 
               <Button 
                 onClick={() => setIsCartOpen(true)}
-                className="relative bg-orange-600 hover:bg-orange-700"
+                className="relative bg-orange-600 hover:bg-orange-700 text-xs px-2 py-1"
+                size="sm"
               >
-                <ShoppingCart className="h-5 w-5 mr-2" />
+                <ShoppingCart className="h-4 w-4 mr-1" />
                 Cart
                 {cart.length > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-red-500 text-white min-w-[20px] h-5 rounded-full text-xs flex items-center justify-center">
+                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white min-w-[16px] h-4 rounded-full text-xs flex items-center justify-center p-0">
                     {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </Badge>
                 )}
@@ -146,21 +147,21 @@ export default function FastFoodPage() {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-6 flex-shrink-0">
+      <div className="bg-gradient-to-r from-orange-600 to-red-600 text-white py-4 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold mb-2">Fresh Daily Cooked Meals</h2>
-          <p className="text-lg mb-4">Authentic Filipino dishes prepared with love every day</p>
-          <div className="flex items-center justify-center space-x-6 text-orange-100 text-sm">
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4" />
+          <h2 className="text-xl font-bold mb-1">Fresh Daily Cooked Meals</h2>
+          <p className="text-sm mb-3">Authentic Filipino dishes prepared with love every day</p>
+          <div className="flex items-center justify-center space-x-4 text-orange-100 text-xs">
+            <div className="flex items-center space-x-1">
+              <Clock className="h-3 w-3" />
               <span>Fresh Daily</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <Star className="h-4 w-4" />
+            <div className="flex items-center space-x-1">
+              <Star className="h-3 w-3" />
               <span>Authentic Taste</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <ChefHat className="h-4 w-4" />
+            <div className="flex items-center space-x-1">
+              <ChefHat className="h-3 w-3" />
               <span>Home-Style Cooking</span>
             </div>
           </div>
@@ -168,45 +169,45 @@ export default function FastFoodPage() {
       </div>
 
       {/* Products Grid */}
-      <div className="flex-1 overflow-hidden flex flex-col">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex-1 flex flex-col">
-          <div className="mb-4">
-            <h3 className="text-xl font-bold text-gray-900 mb-1">Today's Menu</h3>
-            <p className="text-gray-600 text-sm">Delicious Filipino meals cooked fresh daily</p>
+      <div className="flex-1 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 h-full flex flex-col">
+          <div className="mb-3 flex-shrink-0">
+            <h3 className="text-lg font-bold text-gray-900 mb-1">Today's Menu</h3>
+            <p className="text-gray-600 text-xs">Delicious Filipino meals cooked fresh daily</p>
           </div>
 
-          <div className="flex-1 overflow-y-auto hide-scrollbar">
+          <div className="flex-1 overflow-y-auto">
             {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {[...Array(6)].map((_, i) => (
                   <Card key={i} className="overflow-hidden">
-                    <Skeleton className="h-32 w-full" />
-                    <CardContent className="p-3">
-                      <Skeleton className="h-4 w-3/4 mb-2" />
-                      <Skeleton className="h-3 w-full mb-3" />
-                      <Skeleton className="h-8 w-20" />
+                    <Skeleton className="h-24 w-full" />
+                    <CardContent className="p-2">
+                      <Skeleton className="h-3 w-3/4 mb-1" />
+                      <Skeleton className="h-2 w-full mb-2" />
+                      <Skeleton className="h-6 w-16" />
                     </CardContent>
                   </Card>
                 ))}
               </div>
             ) : fastfoodProducts.length === 0 ? (
-              <div className="text-center py-16">
-                <ChefHat className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-700 mb-2">No Fast Food Items Available</h3>
-                <p className="text-gray-500">Check back later for today's fresh meals!</p>
+              <div className="text-center py-8">
+                <ChefHat className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                <h3 className="text-base font-medium text-gray-700 mb-1">No Fast Food Items Available</h3>
+                <p className="text-gray-500 text-sm">Check back later for today's fresh meals!</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pb-3">
                 {fastfoodProducts.map((product) => (
                   <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
                     <div className="relative">
                       <img
                         src={product.imageUrl || '/placeholder-food.jpg'}
                         alt={product.name}
-                        className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <Badge 
-                        className={`absolute top-2 right-2 text-xs ${
+                        className={`absolute top-1 right-1 text-xs px-1 py-0 ${
                           product.available 
                             ? 'bg-green-500 text-white' 
                             : 'bg-red-500 text-white'
@@ -216,12 +217,12 @@ export default function FastFoodPage() {
                       </Badge>
                     </div>
                     
-                    <CardContent className="p-3">
-                      <h4 className="font-semibold text-base text-gray-900 mb-1">{product.name}</h4>
-                      <p className="text-gray-600 text-xs mb-3 line-clamp-2">{product.description}</p>
+                    <CardContent className="p-2">
+                      <h4 className="font-semibold text-sm text-gray-900 mb-1">{product.name}</h4>
+                      <p className="text-gray-600 text-xs mb-2 line-clamp-2">{product.description}</p>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-orange-600">
+                        <span className="text-base font-bold text-orange-600">
                           {formatPrice(product.price)}
                         </span>
                         
@@ -230,7 +231,7 @@ export default function FastFoodPage() {
                           variant="outline"
                           onClick={() => addToCart(product)}
                           disabled={!product.available}
-                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-2 py-1"
+                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-2 py-1 h-6"
                         >
                           <Plus className="h-3 w-3 mr-1" />
                           Add
@@ -246,10 +247,10 @@ export default function FastFoodPage() {
       </div>
 
       {/* Daily Specials Banner */}
-      <div className="bg-orange-100 py-3 flex-shrink-0">
+      <div className="bg-orange-100 py-2 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-base font-bold text-orange-800 mb-1">Daily Specials</h3>
-          <p className="text-orange-700 text-sm">Fresh meals cooked every morning • Available while supplies last</p>
+          <h3 className="text-sm font-bold text-orange-800 mb-1">Daily Specials</h3>
+          <p className="text-orange-700 text-xs">Fresh meals cooked every morning • Available while supplies last</p>
         </div>
       </div>
 
