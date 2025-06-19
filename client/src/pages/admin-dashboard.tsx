@@ -155,7 +155,7 @@ export default function AdminDashboard() {
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-bakery-dark">Admin Dashboard</h1>
+            <h1 className="font-bold text-[13px] text-center text-[#ea580c]">Admin Dashboard</h1>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
               <Link href="/">
