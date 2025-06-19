@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,16 +10,18 @@ import { Product } from "@shared/schema";
 import ProductGrid from "@/components/product-grid";
 import ShoppingCart from "@/components/shopping-cart";
 import CheckoutModal from "@/components/checkout-modal";
-import { ShoppingCart as CartIcon, ShieldX, Wheat, MapPin, Phone, ChefHat } from "lucide-react";
+import { ShoppingCart as CartIcon, ShieldX, Wheat, MapPin, Phone, ChefHat, User, LogOut, Settings } from "lucide-react";
 import { Link } from "wouter";
 
 export default function HomePage() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, logoutMutation } = useAuth();
   const { cart, addToCart, updateCartQuantity, removeFromCart, clearCart, cartTotal, cartItemCount } = useCart();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const { data: products = [], isLoading } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -45,6 +47,20 @@ export default function HomePage() {
     imageUrl: item.imageUrl
   }));
 
+  // Close user menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+      }
+    }
+
+    if (showUserMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showUserMenu]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
@@ -55,37 +71,104 @@ export default function HomePage() {
               <Wheat className="h-8 w-8 text-bakery-primary" />
               <span className="text-xl font-bold text-bakery-dark">MAXWIL'</span>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Link href="/fastfood">
                 <Button
                   variant="ghost"
                   size="sm"
                   className="button-press hover-lift text-[#f24907]"
                 >
-                  <ChefHat className="h-5 w-5 mr-2" />
+                  <ChefHat className="h-4 w-4 mr-1" />
                   Fast Food
                 </Button>
               </Link>
+              
               <Button
                 variant="ghost"
                 size="sm"
                 className="relative p-2 button-press hover-lift"
                 onClick={() => setIsCartOpen(true)}
               >
-                <CartIcon className="h-6 w-6" />
+                <CartIcon className="h-5 w-5" />
                 {cartItemCount > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 animate-scale-in">
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-xs bg-red-500 hover:bg-red-600 animate-scale-in">
                     {cartItemCount}
                   </Badge>
                 )}
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => user?.role === "admin" ? setLocation("/admin") : setLocation("/auth")}
-              >
-                <ShieldX className="h-6 w-6" />
-              </Button>
+
+              {user ? (
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center space-x-1 text-bakery-primary hover:bg-bakery-cream"
+                  >
+                    <User className="h-4 w-4" />
+                    <span className="text-xs">{user.username}</span>
+                  </Button>
+                  
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border z-50">
+                      <div className="p-2">
+                        <div className="px-3 py-2 border-b">
+                          <p className="text-sm font-medium text-gray-900">{user.username}</p>
+                          <p className="text-xs text-gray-500">Welcome back!</p>
+                        </div>
+                        
+                        {user.role === "admin" && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setLocation("/admin");
+                              setShowUserMenu(false);
+                            }}
+                            className="w-full justify-start text-xs"
+                          >
+                            <ShieldX className="h-4 w-4 mr-2" />
+                            Admin Dashboard
+                          </Button>
+                        )}
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowUserMenu(false)}
+                          className="w-full justify-start text-xs"
+                        >
+                          <Settings className="h-4 w-4 mr-2" />
+                          Settings
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            logoutMutation.mutate();
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full justify-start text-xs text-red-600 hover:bg-red-50"
+                        >
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Logout
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setLocation("/auth")}
+                  className="text-bakery-primary hover:bg-bakery-cream"
+                >
+                  <User className="h-4 w-4 mr-1" />
+                  Login
+                </Button>
+              )}
             </div>
           </div>
         </div>

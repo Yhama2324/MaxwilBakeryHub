@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Plus, ChefHat, Clock, Star, Cake, ShieldX } from "lucide-react";
+import { ShoppingCart, Plus, ChefHat, Clock, Star, Cake, ShieldX, User, LogOut, Settings } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,9 @@ export default function FastFoodPage() {
   const { cart, addToCart, updateCartQuantity, removeFromCart, clearCart, cartTotal, cartItemCount } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, logoutMutation } = useAuth();
   const { toast } = useToast();
 
   const { data: products = [], isLoading } = useQuery<Product[]>({
@@ -71,7 +72,7 @@ export default function FastFoodPage() {
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               <Link href="/">
                 <Button
                   variant="ghost"
@@ -82,15 +83,6 @@ export default function FastFoodPage() {
                   Bakery
                 </Button>
               </Link>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => user?.role === "admin" ? setLocation("/admin") : setLocation("/auth")}
-                className="text-orange-600 hover:bg-orange-50 text-xs px-2"
-              >
-                <ShieldX className="h-4 w-4 mr-1" />
-                Admin
-              </Button>
 
               <Button 
                 onClick={() => setIsCartOpen(true)}
@@ -105,6 +97,79 @@ export default function FastFoodPage() {
                   </Badge>
                 )}
               </Button>
+
+              {user ? (
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center space-x-1 text-orange-600 hover:bg-orange-50 text-xs px-2"
+                  >
+                    <User className="h-4 w-4" />
+                    <span>{user.username}</span>
+                  </Button>
+                  
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border z-50">
+                      <div className="p-2">
+                        <div className="px-3 py-2 border-b">
+                          <p className="text-sm font-medium text-gray-900">{user.username}</p>
+                          <p className="text-xs text-gray-500">Welcome back!</p>
+                        </div>
+                        
+                        {user.role === "admin" && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setLocation("/admin");
+                              setShowUserMenu(false);
+                            }}
+                            className="w-full justify-start text-xs"
+                          >
+                            <ShieldX className="h-4 w-4 mr-2" />
+                            Admin Dashboard
+                          </Button>
+                        )}
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowUserMenu(false)}
+                          className="w-full justify-start text-xs"
+                        >
+                          <Settings className="h-4 w-4 mr-2" />
+                          Settings
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            logoutMutation.mutate();
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full justify-start text-xs text-red-600 hover:bg-red-50"
+                        >
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Logout
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setLocation("/auth")}
+                  className="text-orange-600 hover:bg-orange-50 text-xs px-2"
+                >
+                  <User className="h-4 w-4 mr-1" />
+                  Login
+                </Button>
+              )}
             </div>
           </div>
         </div>
