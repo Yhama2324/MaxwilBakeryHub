@@ -177,14 +177,14 @@ export default function FastFoodPage() {
 
           <div className="pb-2">
             {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {[...Array(6)].map((_, i) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {[...Array(8)].map((_, i) => (
                   <Card key={i} className="overflow-hidden">
-                    <Skeleton className="h-24 w-full" />
+                    <Skeleton className="h-16 w-full" />
                     <CardContent className="p-2">
-                      <Skeleton className="h-3 w-3/4 mb-1" />
-                      <Skeleton className="h-2 w-full mb-2" />
-                      <Skeleton className="h-6 w-16" />
+                      <Skeleton className="h-2 w-3/4 mb-1" />
+                      <Skeleton className="h-2 w-full mb-1" />
+                      <Skeleton className="h-4 w-12" />
                     </CardContent>
                   </Card>
                 ))}
@@ -196,14 +196,14 @@ export default function FastFoodPage() {
                 <p className="text-gray-500 text-sm">Check back later for today's fresh meals!</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pb-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-3">
                 {fastfoodProducts.map((product) => (
                   <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
                     <div className="relative">
                       <img
                         src={product.imageUrl || '/placeholder-food.jpg'}
                         alt={product.name}
-                        className="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-16 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <Badge 
                         className={`absolute top-1 right-1 text-xs px-1 py-0 ${
@@ -217,11 +217,11 @@ export default function FastFoodPage() {
                     </div>
                     
                     <CardContent className="p-2">
-                      <h4 className="font-semibold text-sm text-gray-900 mb-1">{product.name}</h4>
-                      <p className="text-gray-600 text-xs mb-2 line-clamp-2">{product.description}</p>
+                      <h4 className="font-semibold text-xs text-gray-900 mb-1">{product.name}</h4>
+                      <p className="text-gray-600 text-xs mb-1 line-clamp-1">{product.description}</p>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-base font-bold text-orange-600">
+                        <span className="text-sm font-bold text-orange-600">
                           {formatPrice(product.price)}
                         </span>
                         
@@ -230,9 +230,9 @@ export default function FastFoodPage() {
                           variant="outline"
                           onClick={() => addToCart(product)}
                           disabled={!product.available}
-                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-2 py-1 h-6"
+                          className="border-orange-600 text-orange-600 hover:bg-orange-50 text-xs px-1 py-0 h-5"
                         >
-                          <Plus className="h-3 w-3 mr-1" />
+                          <Plus className="h-2 w-2 mr-1" />
                           Add
                         </Button>
                       </div>
