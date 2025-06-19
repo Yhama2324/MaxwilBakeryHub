@@ -96,7 +96,7 @@ export default function ProductsPage() {
                   Back to Dashboard
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold text-bakery-dark">Product Management</h1>
+              <h1 className="font-bold text-bakery-dark text-[13px]">Product Management</h1>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
@@ -110,7 +110,6 @@ export default function ProductsPage() {
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <Card>
@@ -253,7 +252,6 @@ export default function ProductsPage() {
           </CardContent>
         </Card>
       </div>
-
       {/* Product Modal */}
       <ProductModal
         isOpen={isProductModalOpen}
