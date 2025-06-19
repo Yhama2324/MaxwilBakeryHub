@@ -323,19 +323,19 @@ export default function AdminDashboard() {
                           ? "bg-orange-50 border border-orange-200" 
                           : "bg-gray-50"
                       }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center space-x-3 flex-1 min-w-0">
                             <img
                               src={product.imageUrl || "https://via.placeholder.com/60"}
                               alt={product.name}
                               className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                             />
                             <div className="min-w-0 flex-1">
-                              <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-2 mb-1">
                                 <h4 className="font-semibold text-sm text-bakery-dark truncate">{product.name}</h4>
                                 <Badge 
                                   variant="outline" 
-                                  className={`text-xs px-1 py-0 ${product.category === "fastfood" 
+                                  className={`text-xs px-1 py-0 flex-shrink-0 ${product.category === "fastfood" 
                                     ? "border-orange-500 text-orange-700 bg-orange-50" 
                                     : "border-bakery-primary text-bakery-primary bg-bakery-cream/30"
                                   }`}
@@ -347,18 +347,18 @@ export default function AdminDashboard() {
                                   )}
                                 </Badge>
                               </div>
-                              <p className="text-xs text-gray-600 truncate">{product.description}</p>
+                              <p className="text-xs text-gray-600 truncate mb-1">{product.description}</p>
                               <span className="text-sm font-bold text-bakery-primary">
                                 {formatPrice(product.price)}
                               </span>
                             </div>
                           </div>
-                          <div className="flex items-center space-x-1">
+                          <div className="flex flex-col space-y-1 flex-shrink-0">
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleEditProduct(product)}
-                              className="h-7 w-7 p-0"
+                              className="h-7 w-8 p-0 text-blue-600 hover:bg-blue-50 hover:border-blue-300"
                             >
                               <Edit className="h-3 w-3" />
                             </Button>
@@ -367,7 +367,7 @@ export default function AdminDashboard() {
                               size="sm"
                               onClick={() => handleDeleteProduct(product.id)}
                               disabled={deleteProductMutation.isPending}
-                              className="h-7 w-7 p-0 text-red-600 hover:bg-red-50 hover:border-red-300"
+                              className="h-7 w-8 p-0 text-red-600 hover:bg-red-50 hover:border-red-300"
                             >
                               <Trash2 className="h-3 w-3" />
                             </Button>
