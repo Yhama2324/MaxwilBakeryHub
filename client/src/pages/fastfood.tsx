@@ -104,7 +104,7 @@ export default function FastFoodPage() {
               <div>
                 <h1 className="text-base font-bold text-gray-900 text-center">MAXWIL' 
                 Fast Food</h1>
-                <p className="text-xs text-gray-600">Daily Cooked Meals</p>
+                <p className="text-xs text-gray-600 text-center">Daily Cooked Meals</p>
               </div>
             </div>
 
