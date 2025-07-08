@@ -283,7 +283,7 @@ export default function RevenuePage() {
                   .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                   .slice(0, 10)
                   .map((order) => (
-                  <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg bg-white">
+                  <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg bg-[#d1ebed] font-extrabold text-[#0f0500]">
                     <div>
                       <h4 className="font-semibold">Order #{order.id}</h4>
                       <p className="text-sm text-gray-600">{order.customerName}</p>
