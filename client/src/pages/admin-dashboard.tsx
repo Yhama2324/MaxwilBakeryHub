@@ -25,7 +25,8 @@ import {
   Clock,
   DollarSign,
   ChefHat,
-  Home
+  Home,
+  BarChart3
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -183,7 +184,7 @@ export default function AdminDashboard() {
       </div>
       {/* Stats Cards */}
       <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
           <Link href="/admin/products">
             <Card className="cursor-pointer hover:shadow-md transition-shadow">
               <CardContent className="p-3">
@@ -236,6 +237,21 @@ export default function AdminDashboard() {
                     <p className="text-lg font-bold text-green-600">{formatPrice(totalRevenue)}</p>
                   </div>
                   <DollarSign className="h-5 w-5 text-green-500" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/admin/analytics">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-600">Analytics</p>
+                    <p className="text-lg font-bold text-purple-600">Reports</p>
+                    <p className="text-xs text-gray-500">Export & Print</p>
+                  </div>
+                  <BarChart3 className="h-5 w-5 text-purple-500" />
                 </div>
               </CardContent>
             </Card>

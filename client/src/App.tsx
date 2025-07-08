@@ -13,6 +13,7 @@ import ProductsPage from "@/pages/products-page";
 import ActiveOrdersPage from "@/pages/active-orders-page";
 import TotalOrdersPage from "@/pages/total-orders-page";
 import RevenuePage from "@/pages/revenue-page";
+import AnalyticsPage from "@/pages/analytics-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import NotFound from "@/pages/not-found";
 
@@ -27,6 +28,7 @@ function Router() {
       <ProtectedRoute path="/admin/active-orders" component={ActiveOrdersPage} adminOnly={true} />
       <ProtectedRoute path="/admin/total-orders" component={TotalOrdersPage} adminOnly={true} />
       <ProtectedRoute path="/admin/revenue" component={RevenuePage} adminOnly={true} />
+      <ProtectedRoute path="/admin/analytics" component={AnalyticsPage} adminOnly={true} />
       <Route component={NotFound} />
     </Switch>
   );
