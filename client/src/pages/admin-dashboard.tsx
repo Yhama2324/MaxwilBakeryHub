@@ -157,7 +157,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between">
             <h1 className="font-bold text-[13px] text-center text-[#ea580c]">Admin Dashboard</h1>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
+              <span className="text-sm text-center text-[#101112] font-bold">Welcome, {user?.username}</span>
               <Link href="/">
                 <Button
                   variant="outline"
