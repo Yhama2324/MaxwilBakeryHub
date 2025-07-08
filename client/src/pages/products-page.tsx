@@ -96,10 +96,10 @@ export default function ProductsPage() {
                   Back to Dashboard
                 </Button>
               </Link>
-              <h1 className="font-bold text-bakery-dark text-[13px]">Product Management</h1>
+              <h1 className="font-bold text-bakery-dark text-lg">Product Management</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
+              <span className="text-sm font-medium text-gray-700">Welcome, {user?.username}</span>
               <Link href="/">
                 <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
                   <Home className="h-4 w-4 mr-2" />
@@ -141,12 +141,12 @@ export default function ProductsPage() {
             
             {/* Category Filter */}
             <div className="flex items-center flex-wrap gap-2 mt-4">
-              <span className="text-xs font-medium text-gray-600">Filter:</span>
+              <span className="text-xs font-semibold text-gray-800">Filter:</span>
               <Button 
                 variant={productCategoryFilter === "all" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setProductCategoryFilter("all")}
-                className="h-6 px-2 text-xs"
+                className="h-6 px-2 text-xs font-semibold"
               >
                 All ({products.length})
               </Button>
@@ -154,7 +154,7 @@ export default function ProductsPage() {
                 variant={productCategoryFilter === "bakery" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setProductCategoryFilter("bakery")}
-                className="h-6 px-2 text-xs text-bakery-primary border-bakery-primary hover:bg-bakery-cream"
+                className="h-6 px-2 text-xs font-semibold text-bakery-secondary border-bakery-secondary hover:bg-bakery-cream hover:text-bakery-dark"
               >
                 Bakery ({products.filter(p => ["bread", "pastries", "cakes", "cookies"].includes(p.category)).length})
               </Button>
@@ -162,7 +162,7 @@ export default function ProductsPage() {
                 variant={productCategoryFilter === "fastfood" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setProductCategoryFilter("fastfood")}
-                className="h-6 px-2 text-xs text-orange-600 border-orange-600 hover:bg-orange-50"
+                className="h-6 px-2 text-xs font-semibold text-orange-700 border-orange-700 hover:bg-orange-100 hover:text-orange-800"
               >
                 Fast Food ({products.filter(p => p.category === "fastfood").length})
               </Button>

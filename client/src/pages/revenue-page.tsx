@@ -112,7 +112,7 @@ export default function RevenuePage() {
                   Back to Dashboard
                 </Button>
               </Link>
-              <h1 className="font-bold text-[14px] text-center ml-[-3px] mr-[-3px] text-[#db530f]">Revenue Analytics</h1>
+              <h1 className="font-bold text-lg text-center text-bakery-dark">Revenue Analytics</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/">

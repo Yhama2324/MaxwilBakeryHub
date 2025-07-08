@@ -202,11 +202,11 @@ export default function TotalOrdersPage() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="all" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="all">All Orders ({orders.length})</TabsTrigger>
-                <TabsTrigger value="active">Active ({activeOrders.length})</TabsTrigger>
-                <TabsTrigger value="completed">Completed ({completedOrders.length})</TabsTrigger>
-                <TabsTrigger value="cancelled">Cancelled ({cancelledOrders.length})</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-1">
+                <TabsTrigger value="all" className="font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm">All Orders ({orders.length})</TabsTrigger>
+                <TabsTrigger value="active" className="font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-orange-700 data-[state=active]:shadow-sm">Active ({activeOrders.length})</TabsTrigger>
+                <TabsTrigger value="completed" className="font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-green-700 data-[state=active]:shadow-sm">Completed ({completedOrders.length})</TabsTrigger>
+                <TabsTrigger value="cancelled" className="font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-red-700 data-[state=active]:shadow-sm">Cancelled ({cancelledOrders.length})</TabsTrigger>
               </TabsList>
 
               <TabsContent value="all" className="mt-4">

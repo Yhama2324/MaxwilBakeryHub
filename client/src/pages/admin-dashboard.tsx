@@ -244,20 +244,20 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4 mb-6">
-            <TabsTrigger value="products" className="flex items-center space-x-2">
+          <TabsList className="grid w-full grid-cols-4 mb-6 bg-gray-100 p-1">
+            <TabsTrigger value="products" className="flex items-center space-x-2 font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-bakery-dark data-[state=active]:shadow-sm">
               <Package className="h-4 w-4" />
               <span>Products</span>
             </TabsTrigger>
-            <TabsTrigger value="orders" className="flex items-center space-x-2">
+            <TabsTrigger value="orders" className="flex items-center space-x-2 font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-bakery-dark data-[state=active]:shadow-sm">
               <ShoppingBag className="h-4 w-4" />
               <span>Orders</span>
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center space-x-2">
+            <TabsTrigger value="history" className="flex items-center space-x-2 font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-bakery-dark data-[state=active]:shadow-sm">
               <Clock className="h-4 w-4" />
               <span>History</span>
             </TabsTrigger>
-            <TabsTrigger value="map" className="flex items-center space-x-2">
+            <TabsTrigger value="map" className="flex items-center space-x-2 font-semibold text-gray-700 data-[state=active]:bg-white data-[state=active]:text-bakery-dark data-[state=active]:shadow-sm">
               <Map className="h-4 w-4" />
               <span>Delivery Map</span>
             </TabsTrigger>
@@ -291,12 +291,12 @@ export default function AdminDashboard() {
                   
                   {/* Category Filter */}
                   <div className="flex items-center flex-wrap gap-2">
-                    <span className="text-xs font-medium text-gray-600">Filter:</span>
+                    <span className="text-xs font-semibold text-gray-800">Filter:</span>
                     <Button 
                       variant={productCategoryFilter === "all" ? "default" : "outline"}
                       size="sm"
                       onClick={() => setProductCategoryFilter("all")}
-                      className="h-6 px-2 text-xs"
+                      className="h-6 px-2 text-xs font-semibold"
                     >
                       All ({products.length})
                     </Button>
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
                       variant={productCategoryFilter === "bakery" ? "default" : "outline"}
                       size="sm"
                       onClick={() => setProductCategoryFilter("bakery")}
-                      className="h-6 px-2 text-xs text-bakery-primary border-bakery-primary hover:bg-bakery-cream"
+                      className="h-6 px-2 text-xs font-semibold text-bakery-secondary border-bakery-secondary hover:bg-bakery-cream hover:text-bakery-dark"
                     >
                       Bakery ({products.filter(p => ["bread", "pastries", "cakes", "cookies"].includes(p.category)).length})
                     </Button>
@@ -312,7 +312,7 @@ export default function AdminDashboard() {
                       variant={productCategoryFilter === "fastfood" ? "default" : "outline"}
                       size="sm"
                       onClick={() => setProductCategoryFilter("fastfood")}
-                      className="h-6 px-2 text-xs text-orange-600 border-orange-600 hover:bg-orange-50"
+                      className="h-6 px-2 text-xs font-semibold text-orange-700 border-orange-700 hover:bg-orange-100 hover:text-orange-800"
                     >
                       Fast Food ({products.filter(p => p.category === "fastfood").length})
                     </Button>

@@ -99,10 +99,10 @@ export default function HomePage() {
             <Button
               key={category.id}
               variant={selectedCategory === category.id ? "default" : "outline"}
-              className={`p-2 h-auto flex-col space-y-1 transition-all duration-200 transform hover:scale-105 button-press hover-lift ${
+              className={`p-2 h-auto flex-col space-y-1 transition-all duration-200 transform hover:scale-105 button-press hover-lift font-semibold ${
                 selectedCategory === category.id 
-                  ? "bg-bakery-primary hover:bg-bakery-secondary border-bakery-primary animate-scale-in" 
-                  : "border-2 hover:border-bakery-primary"
+                  ? "bg-bakery-primary hover:bg-bakery-secondary border-bakery-primary animate-scale-in text-white" 
+                  : "border-2 hover:border-bakery-primary text-bakery-dark hover:text-bakery-primary"
               }`}
               onClick={() => setSelectedCategory(category.id)}
             >
@@ -130,7 +130,7 @@ export default function HomePage() {
             <Button
               variant="ghost"
               size="sm"
-              className="flex flex-col items-center space-y-1 px-2 py-2 text-bakery-primary"
+              className="flex flex-col items-center space-y-1 px-2 py-2 text-bakery-primary font-semibold"
             >
               <Home className="h-5 w-5" />
               <span className="text-xs font-medium">Bakery</span>
@@ -140,7 +140,7 @@ export default function HomePage() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-[#f24907]"
+                className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-700 hover:text-[#f24907] font-medium"
               >
                 <ChefHat className="h-5 w-5" />
                 <span className="text-xs font-medium">Fast Food</span>
@@ -151,7 +151,7 @@ export default function HomePage() {
               variant="ghost"
               size="sm"
               onClick={() => setIsCartOpen(true)}
-              className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-bakery-primary relative"
+              className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-700 hover:text-bakery-primary relative font-medium"
             >
               <CartIcon className="h-5 w-5" />
               <span className="text-xs font-medium">Cart</span>
@@ -168,7 +168,7 @@ export default function HomePage() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-bakery-primary"
+                  className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-700 hover:text-bakery-primary font-medium"
                 >
                   <User className="h-5 w-5" />
                   <span className="text-xs font-medium">Profile</span>

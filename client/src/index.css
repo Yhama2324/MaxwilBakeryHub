@@ -24,11 +24,11 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Bakery colors */
-  --bakery-primary: hsl(32, 54%, 65%);
-  --bakery-secondary: hsl(23, 53%, 33%);
-  --bakery-cream: hsl(43, 68%, 87%);
-  --bakery-dark: hsl(23, 37%, 20%);
+  /* Bakery colors - improved contrast */
+  --bakery-primary: hsl(32, 65%, 55%);
+  --bakery-secondary: hsl(23, 60%, 25%);
+  --bakery-cream: hsl(43, 75%, 80%);
+  --bakery-dark: hsl(23, 50%, 15%);
 }
 
 .dark {

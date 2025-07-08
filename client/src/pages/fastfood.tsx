@@ -188,7 +188,7 @@ export default function FastFoodPage() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-bakery-primary"
+                className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-700 hover:text-bakery-primary font-medium"
               >
                 <Home className="h-5 w-5" />
                 <span className="text-xs font-medium">Bakery</span>
@@ -198,7 +198,7 @@ export default function FastFoodPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="flex flex-col items-center space-y-1 px-2 py-2 text-[#f24907]"
+              className="flex flex-col items-center space-y-1 px-2 py-2 text-[#f24907] font-semibold"
             >
               <ChefHat className="h-5 w-5" />
               <span className="text-xs font-medium">Fast Food</span>
@@ -208,7 +208,7 @@ export default function FastFoodPage() {
               variant="ghost"
               size="sm"
               onClick={() => setIsCartOpen(true)}
-              className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-500 hover:text-orange-600 relative"
+              className="flex flex-col items-center space-y-1 px-2 py-2 text-gray-700 hover:text-orange-600 relative font-medium"
             >
               <ShoppingCart className="h-5 w-5" />
               <span className="text-xs font-medium">Cart</span>
