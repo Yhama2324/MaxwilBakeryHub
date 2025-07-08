@@ -4,7 +4,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.bakery.app',
   appName: 'Bakery Mobile',
-  webDir: 'client/dist',
+  webDir: 'dist/public',
   server: {
     androidScheme: 'https'
   },
