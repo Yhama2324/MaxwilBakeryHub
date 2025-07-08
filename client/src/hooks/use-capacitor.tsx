@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { Network } from '@capacitor/network';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { StatusBar } from '@capacitor/status-bar';
 
 export function useCapacitor() {
@@ -44,22 +44,22 @@ export function useCapacitor() {
 // Offline storage utility
 export const offlineStorage = {
   async set(key: string, value: any) {
-    await Storage.set({
+    await Preferences.set({
       key,
       value: JSON.stringify(value)
     });
   },
 
   async get(key: string) {
-    const { value } = await Storage.get({ key });
+    const { value } = await Preferences.get({ key });
     return value ? JSON.parse(value) : null;
   },
 
   async remove(key: string) {
-    await Storage.remove({ key });
+    await Preferences.remove({ key });
   },
 
   async clear() {
-    await Storage.clear();
+    await Preferences.clear();
   }
 };
