@@ -108,35 +108,9 @@ The application follows a modern full-stack architecture with clear separation o
 - Input validation using Zod schemas
 - Secure session configuration
 
-## Mobile App Conversion (Android APK)
-
-### Capacitor Configuration
-- **Framework**: Capacitor v7 for hybrid mobile app development
-- **App ID**: com.bakery.app
-- **App Name**: Bakery Mobile
-- **Web Directory**: dist/public (where the built web assets are stored)
-
-### Android Build Process
-1. **Prerequisites**: Node.js and npm must be available
-2. **Build Sequence**:
-   - `npm run build:mobile` - Builds the web assets
-   - `npx cap sync android` - Syncs web assets to Android project
-   - `npx cap build android` - Builds the Android APK
-
-### Current Status
-- Android project folder exists and is properly configured
-- Web assets are built in the `dist/public` directory
-- Missing: Node.js runtime for executing build commands
-
-### Build Commands Available
-- `npm run mobile:build:android` - Complete Android build process
-- `npm run mobile:sync` - Sync web assets to mobile platforms
-
 ## Changelog
-- July 09, 2025: Added Android APK build configuration and troubleshooting guide
-- July 08, 2025: Initial setup
+- July 08, 2025. Initial setup
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
-Wants to convert web app to Android APK format.

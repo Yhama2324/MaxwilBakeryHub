@@ -234,20 +234,4 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-
-  /* Mobile-specific styles */
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  /* Capacitor mobile adjustments */
-  @media (max-width: 768px) {
-    body {
-      padding-bottom: 80px; /* Space for bottom navigation */
-    }
-  }
 }

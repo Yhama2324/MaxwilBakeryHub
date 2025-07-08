@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { Product } from "@shared/schema";
-import { offlineStorage } from './use-capacitor';
 
 interface CartItem {
   id: number;
@@ -29,7 +28,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCart = (product: Product, quantity: number = 1) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
-
+      
       if (existingItem) {
         return prevCart.map(item =>
           item.id === product.id

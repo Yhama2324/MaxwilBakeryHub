@@ -342,28 +342,23 @@ export default function AnalyticsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50">
+    <div className="min-h-screen bg-gradient-to-br from-bakery-cream via-white to-bakery-cream/30">
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-xl shadow-lg border-b border-gray-200/50 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-5">
+      <div className="bg-white shadow-sm border-b border-bakery-cream/50">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4">
               <Link href="/admin">
-                <Button variant="outline" size="sm" className="text-slate-700 border-slate-300 hover:bg-slate-100 transition-all duration-200 shadow-sm">
+                <Button variant="outline" size="sm" className="text-bakery-primary border-bakery-primary hover:bg-bakery-cream">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Dashboard
+                  Back to Dashboard
                 </Button>
               </Link>
-              <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
-                  Analytics & Reports
-                </h1>
-                <p className="text-sm text-slate-500 mt-1">Advanced business intelligence dashboard</p>
-              </div>
+              <h1 className="text-2xl font-bold text-bakery-dark">Analytics & Reports</h1>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               <Link href="/">
-                <Button variant="outline" size="sm" className="text-blue-600 border-blue-300 hover:bg-blue-50 transition-all duration-200 shadow-sm">
+                <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
                   <Home className="h-4 w-4 mr-2" />
                   Home
                 </Button>
@@ -374,25 +369,19 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Controls */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <Card className="mb-8 bg-white/70 backdrop-blur-sm border-0 shadow-xl ring-1 ring-gray-200/50">
-          <CardHeader className="pb-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-              <div>
-                <CardTitle className="flex items-center space-x-3 text-xl font-semibold text-slate-800">
-                  <div className="p-2 bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg">
-                    <BarChart3 className="h-5 w-5 text-slate-700" />
-                  </div>
-                  Report Settings
-                </CardTitle>
-                <p className="text-sm text-slate-500 mt-2">Configure your analytics dashboard parameters</p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <div className="flex items-center space-x-3 bg-slate-50 rounded-xl p-3">
-                  <Calendar className="h-4 w-4 text-slate-600" />
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <Card className="mb-6">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center space-x-2">
+                <BarChart3 className="h-6 w-6 text-bakery-primary" />
+                Report Settings
+              </CardTitle>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <Calendar className="h-4 w-4 text-gray-600" />
                   <Select value={timePeriod} onValueChange={(value: TimePeriod) => setTimePeriod(value)}>
-                    <SelectTrigger className="w-36 border-0 bg-white shadow-sm">
+                    <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -404,11 +393,10 @@ export default function AnalyticsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                
-                <div className="flex items-center space-x-3 bg-slate-50 rounded-xl p-3">
-                  <FileText className="h-4 w-4 text-slate-600" />
+                <div className="flex items-center space-x-2">
+                  <FileText className="h-4 w-4 text-gray-600" />
                   <Select value={exportFormat} onValueChange={(value: ExportFormat) => setExportFormat(value)}>
-                    <SelectTrigger className="w-28 border-0 bg-white shadow-sm">
+                    <SelectTrigger className="w-24">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -418,41 +406,29 @@ export default function AnalyticsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                
-                <Button 
-                  onClick={handleExport} 
-                  className="bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white shadow-lg transition-all duration-200 px-6 py-2.5"
-                >
+                <Button onClick={handleExport} className="bg-bakery-primary hover:bg-bakery-secondary">
                   <Download className="h-4 w-4 mr-2" />
                   Export Report
                 </Button>
               </div>
             </div>
           </CardHeader>
-          
-          <CardContent className="pt-0">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 p-4 bg-gradient-to-r from-slate-50 to-gray-50 rounded-xl border border-slate-200/50">
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                <Badge variant="outline" className="w-fit text-slate-700 border-slate-300 bg-white/70 font-medium px-3 py-1">
-                  {timePeriod.toUpperCase()} REPORT
+          <CardContent>
+            <div className="flex items-center justify-between text-sm text-gray-600">
+              <div className="flex items-center space-x-2">
+                <Badge variant="outline" className="text-bakery-primary border-bakery-primary">
+                  {timePeriod.toUpperCase()}
                 </Badge>
-                <div className="text-sm text-slate-600 font-medium">
-                  {format(periodStart, 'MMM dd, yyyy')} - {format(periodEnd, 'MMM dd, yyyy')}
-                </div>
+                <span>Period: {format(periodStart, 'MMM dd, yyyy')} - {format(periodEnd, 'MMM dd, yyyy')}</span>
               </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
+              <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <div className="p-1.5 bg-yellow-100 rounded-lg">
-                    <Trophy className="h-3.5 w-3.5 text-yellow-600" />
-                  </div>
-                  <span className="text-sm font-medium text-slate-700">Peak: {peakSalesHour?.hour}</span>
+                  <Trophy className="h-4 w-4 text-yellow-500" />
+                  <span>Peak Hour: {peakSalesHour?.hour}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="p-1.5 bg-slate-100 rounded-lg">
-                    <Clock className="h-3.5 w-3.5 text-slate-600" />
-                  </div>
-                  <span className="text-sm font-medium text-slate-700">Low: {lowSalesHour?.hour}</span>
+                  <Clock className="h-4 w-4 text-gray-500" />
+                  <span>Low Hour: {lowSalesHour?.hour}</span>
                 </div>
               </div>
             </div>
@@ -460,329 +436,175 @@ export default function AnalyticsPage() {
         </Card>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-0 shadow-lg ring-1 ring-green-200/50 hover:shadow-xl transition-all duration-300">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <Card>
             <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Total Revenue</p>
-                  </div>
-                  <p className="text-3xl font-bold text-green-700">{formatPrice(totalRevenue)}</p>
-                  <p className="text-xs text-green-600 font-medium">{totalOrders} completed orders</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
+                  <p className="text-2xl font-bold text-green-600">{formatPrice(totalRevenue)}</p>
+                  <p className="text-xs text-gray-500">{totalOrders} completed orders</p>
                 </div>
-                <div className="p-3 bg-green-100 rounded-xl">
-                  <TrendingUp className="h-6 w-6 text-green-600" />
-                </div>
+                <TrendingUp className="h-8 w-8 text-green-500" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-0 shadow-lg ring-1 ring-blue-200/50 hover:shadow-xl transition-all duration-300">
+          <Card>
             <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Total Orders</p>
-                  </div>
-                  <p className="text-3xl font-bold text-blue-700">{totalOrders}</p>
-                  <p className="text-xs text-blue-600 font-medium">completed this period</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Orders</p>
+                  <p className="text-2xl font-bold text-blue-600">{totalOrders}</p>
+                  <p className="text-xs text-gray-500">completed this period</p>
                 </div>
-                <div className="p-3 bg-blue-100 rounded-xl">
-                  <Package className="h-6 w-6 text-blue-600" />
-                </div>
+                <Package className="h-8 w-8 text-blue-500" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-orange-50 to-amber-50 border-0 shadow-lg ring-1 ring-orange-200/50 hover:shadow-xl transition-all duration-300">
+          <Card>
             <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Average Order</p>
-                  </div>
-                  <p className="text-3xl font-bold text-orange-700">{formatPrice(averageOrderValue)}</p>
-                  <p className="text-xs text-orange-600 font-medium">per completed order</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Average Order</p>
+                  <p className="text-2xl font-bold text-orange-600">{formatPrice(averageOrderValue)}</p>
+                  <p className="text-xs text-gray-500">per completed order</p>
                 </div>
-                <div className="p-3 bg-orange-100 rounded-xl">
-                  <BarChart3 className="h-6 w-6 text-orange-600" />
-                </div>
+                <BarChart3 className="h-8 w-8 text-orange-500" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-0 shadow-lg ring-1 ring-purple-200/50 hover:shadow-xl transition-all duration-300">
+          <Card>
             <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Peak Hour</p>
-                  </div>
-                  <p className="text-3xl font-bold text-purple-700">{peakSalesHour?.hour}</p>
-                  <p className="text-xs text-purple-600 font-medium">{formatPrice(peakSalesHour?.revenue || 0)} revenue</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Peak Hour</p>
+                  <p className="text-2xl font-bold text-purple-600">{peakSalesHour?.hour}</p>
+                  <p className="text-xs text-gray-500">{formatPrice(peakSalesHour?.revenue || 0)} revenue</p>
                 </div>
-                <div className="p-3 bg-purple-100 rounded-xl">
-                  <Trophy className="h-6 w-6 text-purple-600" />
-                </div>
+                <Trophy className="h-8 w-8 text-purple-500" />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Daily Sales Chart */}
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-xl ring-1 ring-gray-200/50">
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg">
-                  <TrendingUp className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <CardTitle className="text-lg font-semibold text-slate-800">Sales Trend Analysis</CardTitle>
-                  <p className="text-sm text-slate-500">Revenue and order patterns over time</p>
-                </div>
-              </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Sales Trend</CardTitle>
             </CardHeader>
-            <CardContent className="pt-2">
-              <div className="bg-gradient-to-br from-slate-50 to-gray-50 p-4 rounded-xl">
-                <ResponsiveContainer width="100%" height={320}>
-                  <LineChart data={dailySales}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis 
-                      dataKey="date" 
-                      tick={{ fontSize: 12, fill: '#64748b' }}
-                      axisLine={{ stroke: '#cbd5e1' }}
-                    />
-                    <YAxis 
-                      tick={{ fontSize: 12, fill: '#64748b' }}
-                      axisLine={{ stroke: '#cbd5e1' }}
-                    />
-                    <Tooltip 
-                      contentStyle={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        border: 'none',
-                        borderRadius: '8px',
-                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)'
-                      }}
-                      formatter={(value, name) => [
-                        name === 'revenue' ? formatPrice(value as number) : value,
-                        name === 'revenue' ? 'Revenue' : 'Orders'
-                      ]}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="revenue" 
-                      stroke="#3b82f6" 
-                      strokeWidth={3}
-                      name="revenue"
-                      dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="orders" 
-                      stroke="#10b981" 
-                      strokeWidth={3}
-                      name="orders"
-                      dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={dailySales}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={(value, name) => [
+                      name === 'revenue' ? formatPrice(value as number) : value,
+                      name === 'revenue' ? 'Revenue' : 'Orders'
+                    ]}
+                  />
+                  <Line type="monotone" dataKey="revenue" stroke="#8884d8" name="revenue" />
+                  <Line type="monotone" dataKey="orders" stroke="#82ca9d" name="orders" />
+                </LineChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
 
           {/* Hourly Sales Chart */}
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-xl ring-1 ring-gray-200/50">
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-br from-purple-100 to-violet-100 rounded-lg">
-                  <Clock className="h-5 w-5 text-purple-600" />
-                </div>
-                <div>
-                  <CardTitle className="text-lg font-semibold text-slate-800">Hourly Sales Pattern</CardTitle>
-                  <p className="text-sm text-slate-500">Revenue distribution throughout the day</p>
-                </div>
-              </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Hourly Sales Pattern</CardTitle>
             </CardHeader>
-            <CardContent className="pt-2">
-              <div className="bg-gradient-to-br from-slate-50 to-gray-50 p-4 rounded-xl">
-                <ResponsiveContainer width="100%" height={320}>
-                  <BarChart data={hourlySales}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis 
-                      dataKey="hour" 
-                      tick={{ fontSize: 12, fill: '#64748b' }}
-                      axisLine={{ stroke: '#cbd5e1' }}
-                    />
-                    <YAxis 
-                      tick={{ fontSize: 12, fill: '#64748b' }}
-                      axisLine={{ stroke: '#cbd5e1' }}
-                    />
-                    <Tooltip 
-                      contentStyle={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        border: 'none',
-                        borderRadius: '8px',
-                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)'
-                      }}
-                      formatter={(value, name) => [
-                        name === 'revenue' ? formatPrice(value as number) : value,
-                        name === 'revenue' ? 'Revenue' : 'Orders'
-                      ]}
-                    />
-                    <Bar 
-                      dataKey="revenue" 
-                      name="revenue"
-                      radius={[4, 4, 0, 0]}
-                    >
-                      {hourlySales.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={`rgba(139, 92, 246, ${0.3 + (entry.revenue / Math.max(...hourlySales.map(h => h.revenue))) * 0.7})`} 
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={hourlySales}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="hour" />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={(value, name) => [
+                      name === 'revenue' ? formatPrice(value as number) : value,
+                      name === 'revenue' ? 'Revenue' : 'Orders'
+                    ]}
+                  />
+                  <Bar dataKey="revenue" fill="#8884d8" name="revenue" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </div>
 
         {/* Product Performance and Category Breakdown */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top Products */}
-          <div className="xl:col-span-2">
-            <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-xl ring-1 ring-gray-200/50">
-              <CardHeader className="pb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg">
-                    <Trophy className="h-5 w-5 text-yellow-600" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg font-semibold text-slate-800">Top Performing Products</CardTitle>
-                    <p className="text-sm text-slate-500">Best-selling items ranked by revenue</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-2">
-                <div className="space-y-3">
-                  {productSales.slice(0, 10).map((item, index) => (
-                    <div 
-                      key={item.product.id} 
-                      className="group flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-gray-50 rounded-xl border border-slate-200/50 hover:shadow-md transition-all duration-200"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
-                          index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
-                          index === 1 ? 'bg-gradient-to-br from-gray-400 to-slate-500 text-white' :
-                          index === 2 ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white' :
-                          'bg-gradient-to-br from-slate-200 to-gray-300 text-slate-700'
-                        }`}>
-                          {index + 1}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="font-semibold text-slate-800 truncate group-hover:text-slate-900 transition-colors">
-                            {item.product.name}
-                          </p>
-                          <div className="flex items-center space-x-3 mt-1">
-                            <span className="text-xs text-slate-600 font-medium">{item.quantity} units</span>
-                            <Badge 
-                              variant="outline" 
-                              className={`text-xs px-2 py-0.5 ${item.product.category === "fastfood" 
-                                ? "border-orange-300 text-orange-700 bg-orange-50" 
-                                : "border-slate-300 text-slate-700 bg-slate-50"
-                              }`}
-                            >
-                              {item.product.category}
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-lg text-slate-800">{formatPrice(item.revenue)}</p>
-                        <p className="text-xs text-slate-500">revenue</p>
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Performing Products</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {productSales.slice(0, 10).map((item, index) => (
+                  <div key={item.product.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Badge variant="outline" className="w-8 h-8 rounded-full flex items-center justify-center">
+                        {index + 1}
+                      </Badge>
+                      <div>
+                        <p className="font-medium text-sm">{item.product.name}</p>
+                        <p className="text-xs text-gray-600">{item.quantity} units sold</p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                    <div className="text-right">
+                      <p className="font-bold text-bakery-primary">{formatPrice(item.revenue)}</p>
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs ${item.product.category === "fastfood" 
+                          ? "border-orange-500 text-orange-700" 
+                          : "border-bakery-primary text-bakery-primary"
+                        }`}
+                      >
+                        {item.product.category}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Category Breakdown */}
-          <div className="xl:col-span-1">
-            <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-xl ring-1 ring-gray-200/50">
-              <CardHeader className="pb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg">
-                    <Package className="h-5 w-5 text-indigo-600" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg font-semibold text-slate-800">Category Performance</CardTitle>
-                    <p className="text-sm text-slate-500">Revenue by product category</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-2">
-                <div className="bg-gradient-to-br from-slate-50 to-gray-50 p-4 rounded-xl">
-                  <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={categoryBreakdown}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={90}
-                        innerRadius={40}
-                        fill="#8884d8"
-                        dataKey="revenue"
-                        paddingAngle={2}
-                      >
-                        {categoryBreakdown.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                          border: 'none',
-                          borderRadius: '8px',
-                          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)'
-                        }}
-                        formatter={(value) => formatPrice(value as number)} 
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                
-                {/* Category Legend */}
-                <div className="mt-4 space-y-2">
-                  {categoryBreakdown.map((category, index) => (
-                    <div key={category.name} className="flex items-center justify-between p-2 bg-white/70 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <div 
-                          className="w-3 h-3 rounded-full" 
-                          style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                        ></div>
-                        <span className="text-sm font-medium text-slate-700">{category.name}</span>
-                      </div>
-                      <span className="text-sm font-semibold text-slate-800">{formatPrice(category.revenue)}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Category Performance</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={categoryBreakdown}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="revenue"
+                    label={({ name, value }) => `${name}: ${formatPrice(value)}`}
+                  >
+                    {categoryBreakdown.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => formatPrice(value as number)} />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </div>
-        
-        {/* Footer Space */}
-        <div className="h-16"></div>
       </div>
     </div>
   );
