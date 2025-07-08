@@ -245,7 +245,7 @@ export default function RevenuePage() {
               ) : (
                 <div className="space-y-3">
                   {topOrders.slice(0, 5).map((order, index) => (
-                    <div key={order.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div key={order.id} className="flex items-center justify-between p-2 rounded bg-[#f7eddac4] font-extrabold text-[#0a0a0a]">
                       <div className="flex items-center space-x-3">
                         <Badge variant="outline" className="w-6 h-6 rounded-full flex items-center justify-center text-xs">
                           {index + 1}
