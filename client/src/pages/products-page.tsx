@@ -99,7 +99,6 @@ export default function ProductsPage() {
               <h1 className="font-bold text-bakery-dark text-lg">Product Management</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm font-medium text-gray-700">Welcome, {user?.username}</span>
               <Link href="/">
                 <Button variant="outline" size="sm" className="text-blue-600 border-blue-600 hover:bg-blue-50">
                   <Home className="h-4 w-4 mr-2" />
@@ -220,9 +219,14 @@ export default function ProductsPage() {
                             </Badge>
                           </div>
                           <p className="text-xs text-gray-600 truncate mb-1">{product.description}</p>
-                          <span className="text-sm font-bold text-bakery-primary">
-                            {formatPrice(product.price)}
-                          </span>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm font-bold text-bakery-primary">
+                              {formatPrice(product.price)}
+                            </span>
+                            {product.category === "fastfood" && (
+                              <span className="text-xs text-orange-600 font-medium">Hot Item</span>
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="flex flex-col space-y-1 flex-shrink-0">
