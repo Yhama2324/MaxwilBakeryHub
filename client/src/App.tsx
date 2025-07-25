@@ -5,8 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/use-auth";
 import { CartProvider } from "@/hooks/use-cart";
-import MobileNavigation from "@/components/mobile-navigation";
-import OfflineIndicator from "@/components/offline-indicator";
 import HomePage from "@/pages/home";
 import FastFoodPage from "@/pages/fastfood";
 import AuthPage from "@/pages/auth-page";
@@ -43,9 +41,7 @@ function App() {
         <CartProvider>
           <TooltipProvider>
             <Toaster />
-            <OfflineIndicator />
             <Router />
-            <MobileNavigation />
           </TooltipProvider>
         </CartProvider>
       </AuthProvider>
