@@ -1,0 +1,27 @@
+{
+  "background_color": "#d97d54",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "maxfastbake",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "MaxwilFB",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://maxwilfastbaker.shop/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "description": "Filipino fast food and fresh bakery delivered fast. Order crispy fried chicken, sisig, adobo bowls, pandesal, pastries, and cakes - all made fresh daily. Two great options in one app: MAXWIL' Fast Food for authentic home-style Filipino meals, and MAXWIL' Bakery for fresh baked goods. Fast delivery, affordable prices, quality ingredients. Open 6AM-8PM daily.",
+  "id": "lightcode&amp;co"
+}
