@@ -52,6 +52,7 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
+// Middleware to log API requests (with sensitive data filtering)
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -68,7 +69,9 @@ app.use((req, res, next) => {
     if (path.startsWith("/api")) {
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+        // Sanitize response before logging - remove sensitive fields
+        const sanitizedResponse = sanitizeLogData(capturedJsonResponse);
+        logLine += ` :: ${JSON.stringify(sanitizedResponse)}`;
       }
 
       if (logLine.length > 80) {
@@ -81,6 +84,30 @@ app.use((req, res, next) => {
 
   next();
 });
+
+// Helper function to remove sensitive fields from logged data
+function sanitizeLogData(data: any): any {
+  if (!data) return data;
+  
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeLogData(item));
+  }
+  
+  if (typeof data === 'object') {
+    const sanitized: any = {};
+    for (const key in data) {
+      // Skip sensitive fields
+      if (key === 'password' || key === 'securityCode') {
+        sanitized[key] = '[REDACTED]';
+      } else {
+        sanitized[key] = sanitizeLogData(data[key]);
+      }
+    }
+    return sanitized;
+  }
+  
+  return data;
+}
 
 (async () => {
   const server = await registerRoutes(app);
