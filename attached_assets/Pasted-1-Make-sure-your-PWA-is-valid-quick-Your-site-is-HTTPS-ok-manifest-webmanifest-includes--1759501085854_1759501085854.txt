@@ -1,0 +1,128 @@
+1) Make sure your PWA is valid (quick)
+
+Your site is HTTPS (ok).
+
+manifest.webmanifest includes:
+
+{
+  "name": "Maxwil FastBake",
+  "short_name": "FastBake",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#111111",
+  "background_color": "#111111",
+  "icons": [
+    {"src": "/icons/icon-192.png","sizes":"192x192","type":"image/png"},
+    {"src": "/icons/icon-512.png","sizes":"512x512","type":"image/png"},
+    {"src": "/icons/icon-512-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable any"}
+  ]
+}
+
+
+A service worker is registered (/sw.js) and handles fetch.
+
+2) Generate (or re-generate) Android TWA with PWABuilder
+
+Go to pwabuilder.com → enter https://maxwillfastbake.store.
+
+Fix any red items.
+
+Package → Android (Trusted Web Activity). Download the Android project/zip.
+
+PWABuilder gives you:
+
+package name (e.g., store.maxwillfastbake.app)
+
+SHA-256 certificate fingerprint for the signing key it uses
+
+A ready assetlinks.json template
+
+3) Publish assetlinks.json on your site
+
+Create this file in your web app:
+
+public/.well-known/assetlinks.json
+
+
+Put the PWABuilder content in it (replace with YOUR values):
+
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "store.maxwillfastbake.app",
+      "sha256_cert_fingerprints": [
+        "AA:BB:CC:...:YY:ZZ"  // exact SHA-256 from PWABuilder or your keystore
+      ]
+    }
+  }
+]
+
+
+Deploy and check it loads:
+
+Open https://maxwillfastbake.store/.well-known/assetlinks.json
+
+Must return 200 OK
+
+Must be valid JSON
+
+Must not redirect
+
+4) Make sure the Android project points to your domain
+
+In the Android project (from PWABuilder):
+
+app/src/main/res/xml/asset_statements.json (or similar) should reference your domain.
+
+app/build.gradle (or build.gradle.kts) default URL must be:
+
+https://maxwillfastbake.store
+
+5) Sign the app with the same key used in assetlinks.json
+
+If you build a debug APK, assetlinks.json must use the debug fingerprint.
+
+If you build a release APK/AAB, assetlinks.json must use the release key fingerprint.
+
+How to get the fingerprint you actually used:
+
+# If you have the keystore you signed with
+keytool -list -v -keystore my-release-key.jks -alias myalias
+
+# Or from the built APK/AAB
+apksigner verify --print-certs app-release.apk
+
+
+Use the SHA-256 value in the assetlinks.json.
+
+6) Reinstall and test
+
+Uninstall the previous APK from your phone (it caches verification).
+
+Install the newly signed APK.
+
+Open it: the URL bar should be gone (full-screen app).
+
+Quick checklist
+
+ manifest + service worker OK
+
+ assetlinks.json hosted at /.well-known/assetlinks.json
+
+ Domain in Android project is https://maxwillfastbake.store
+
+ Fingerprint in assetlinks.json matches the same key used to sign the APK
+
+ Reinstall the APK after changes
+
+If you paste:
+
+your package name
+
+the SHA-256 you’re signing with
+
+your current assetlinks.json
+I’ll verify them line-by-line so you get the full-screen app look.
