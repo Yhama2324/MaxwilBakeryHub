@@ -28,6 +28,64 @@
       "purpose": "maskable any"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/screenshots/bakery-products.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Fresh bakery products - pandesal, pastries, and cakes baked daily"
+    },
+    {
+      "src": "/screenshots/fastfood-menu.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Filipino fast food menu - fried chicken, sisig, adobo, and more"
+    },
+    {
+      "src": "/screenshots/shopping-cart.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Easy shopping cart with quantity controls"
+    },
+    {
+      "src": "/screenshots/checkout.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Simple checkout with delivery address and payment options"
+    },
+    {
+      "src": "/screenshots/order-success.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Order confirmation with real-time preparation tracking"
+    },
+    {
+      "src": "/screenshots/admin-dashboard.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Admin dashboard for managing products and orders"
+    },
+    {
+      "src": "/screenshots/delivery-map.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Live delivery tracking with map integration"
+    },
+    {
+      "src": "/screenshots/order-management.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Order management interface for accepting and tracking orders"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Order Food",
