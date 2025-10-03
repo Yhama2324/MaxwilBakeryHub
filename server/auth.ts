@@ -28,6 +28,11 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
+function sanitizeUser(user: SelectUser): Omit<SelectUser, 'password' | 'securityCode'> {
+  const { password, securityCode, ...sanitizedUser } = user;
+  return sanitizedUser;
+}
+
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET!,
@@ -47,14 +52,6 @@ export function setupAuth(app: Express) {
         const user = await storage.getUserByUsername(username);
         if (!user) {
           return done(null, false, { message: "Invalid username or password" });
-        }
-
-        // For admin users, check if password needs initial hashing
-        if (user.username === "admin" && user.password === "maxwil2024") {
-          // First-time admin login - hash the password
-          const hashedPassword = await hashPassword(password);
-          await storage.updateUserPassword(user.id, hashedPassword);
-          return done(null, user);
         }
 
         const isValidPassword = await comparePasswords(password, user.password);
@@ -77,15 +74,15 @@ export function setupAuth(app: Express) {
 
   app.post("/api/register", async (req, res, next) => {
     try {
-      // Sanitize input
       const { username, password, role, securityCode } = req.body;
       
       if (!username || !password) {
         return res.status(400).json({ message: "Username and password are required" });
       }
 
-      // Security validation for admin registration
-      if (role === "admin" && securityCode !== "BAKERY123") {
+      // Security validation for admin registration using environment variable
+      const ADMIN_SECURITY_CODE = process.env.ADMIN_SECURITY_CODE || "BAKERY123";
+      if (role === "admin" && securityCode !== ADMIN_SECURITY_CODE) {
         return res.status(403).json({ message: "Invalid security code for admin registration" });
       }
 
@@ -103,7 +100,7 @@ export function setupAuth(app: Express) {
 
       req.login(user, (err) => {
         if (err) return next(err);
-        res.status(201).json(user);
+        res.status(201).json(sanitizeUser(user));
       });
     } catch (error) {
       res.status(500).json({ message: "Registration failed" });
@@ -111,7 +108,7 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", passport.authenticate("local"), (req, res) => {
-    res.status(200).json(req.user);
+    res.status(200).json(sanitizeUser(req.user!));
   });
 
   app.post("/api/logout", (req, res, next) => {
@@ -123,6 +120,6 @@ export function setupAuth(app: Express) {
 
   app.get("/api/user", (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    res.json(req.user);
+    res.json(sanitizeUser(req.user!));
   });
 }
