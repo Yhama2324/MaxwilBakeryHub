@@ -44,11 +44,19 @@ export class DatabaseStorage implements IStorage {
       // Check if admin user exists
       const existingAdmin = await this.getUserByUsername("admin");
       if (!existingAdmin) {
+        // Use environment variables for initial admin credentials
+        const adminUsername = process.env.ADMIN_USERNAME || "admin";
+        const adminPassword = process.env.ADMIN_PASSWORD || "maxwil2024";
+        const adminSecurityCode = process.env.ADMIN_SECURITY_CODE || "BAKERY123";
+        
+        // Hash the password before storing
+        const hashedPassword = await this.hashPassword(adminPassword);
+        
         await this.createUser({
-          username: "admin",
-          password: "maxwil2024", // This will be properly hashed by auth.ts
+          username: adminUsername,
+          password: hashedPassword,
           role: "admin",
-          securityCode: "BAKERY123"
+          securityCode: adminSecurityCode
         });
       }
 
@@ -60,6 +68,16 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Database initialization error:", error);
     }
+  }
+
+  private async hashPassword(password: string): Promise<string> {
+    const { scrypt, randomBytes } = await import("crypto");
+    const { promisify } = await import("util");
+    const scryptAsync = promisify(scrypt);
+    
+    const salt = randomBytes(16).toString("hex");
+    const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+    return `${buf.toString("hex")}.${salt}`;
   }
 
   private async initializeProducts() {
